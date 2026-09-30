@@ -94,4 +94,4 @@ Contribuintes que ajudaram a dar vida a este projeto:
 * [Antony](https://github.com) — Coautor / Desenvolvedor Secundario
 
 ---
-Let's take care of our pets! 🐶🐱 Register your pet today!
+Let's take care of our pets! Register your pet today!
