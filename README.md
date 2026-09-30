@@ -91,7 +91,7 @@ Contribuintes que ajudaram a dar vida a este projeto:
 
 * [Lucas](https://github.com/LucasR7-Dev) — Autor / Desenvolvedor Principal
 * [Murilo](https://github.com/liloLNF) — Coautor / Desenvolvedor Secundario
-* [Antony](https://github.com) — Coautor / Desenvolvedor Secundario
+* [Antony](https://github.com/AntonyBonefon) — Coautor / Desenvolvedor Secundario
 
 ---
 Let's take care of our pets! Register your pet today!
