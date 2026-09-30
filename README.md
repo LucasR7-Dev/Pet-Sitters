@@ -97,4 +97,4 @@ Contribuintes que ajudaram a dar vida a este projeto:
 * [Antony](https://github.com/AntonyBonefon) — Coautor / Desenvolvedor Secundário
 
 ---
-Let's take care of our pets! Register your pet today!
+Vamos cuidar dos nossos pets! Cadastre seu pet hoje mesmo!
