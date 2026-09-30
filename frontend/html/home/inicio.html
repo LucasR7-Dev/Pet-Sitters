@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}PetMee | Início{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'inicio.css' %}">{% endblock %}
+
+{% block content %}
+<main class="container">
+    <!-- HERO PRINCIPAL -->
+    <section class="hero-minimal">
+        <h1>Cuidado, Carinho & <span>Segurança.</span></h1>
+        <p>Encontre os melhores cuidadores e serviços para o seu pet enquanto você viaja ou trabalha.</p>
+        <form class="search-wrap" action="{% url 'search_cuidadores' %}" method="GET">
+            <div class="search-input">
+                <span class="icon">🐾</span>
+                <input name="cidade" type="text" placeholder="Digite a cidade onde precisa de um cuidador">
+            </div>
+            <button class="btn-search" type="submit">Buscar Cuidador</button>
+        </form>
+    </section>
+
+    <!-- CUIDADORES EM DESTAQUE -->
+    <section class="featured-products">
+        <div class="section-heading">
+            <h2>Cuidadores em Destaque</h2>
+            <a href="{% url 'search_cuidadores' %}">Ver todos os cuidadores →</a>
+        </div>
+        <div class="grid-clean">
+            {% for cuidador in cuidadores %}
+                <div class="minimal-card">
+                    <div class="card-img">
+                        <img src="{% if cuidador.avatar_url %}{{ cuidador.avatar_url }}{% else %}{% static 'CA1.png' %}{% endif %}"
+                             onerror="this.onerror=null;this.src='{% static 'CA1.png' %}'"
+                             alt="Foto de {{ cuidador.nome_completo }}"
+                             loading="lazy">
+                    </div>
+                    <div class="card-details">
+                        <span class="category">Cuidador PetMee</span>
+                        <h3>{{ cuidador.nome_completo }}</h3>
+                        <p class="location">⌖ {{ cuidador.cidade|default:'Localização não informada' }}{% if cuidador.estado %}, {{ cuidador.estado }}{% endif %}</p>
+                        <div class="card-meta">
+                            {% if cuidador.preco_hora %}
+                                <strong class="price">R$ {{ cuidador.preco_hora }}<span>/hora</span></strong>
+                            {% else %}
+                                <span class="price">Perfil verificado</span>
+                            {% endif %}
+                            <a href="{% url 'perfil_usuario' cuidador.id %}" class="view-more">Conhecer →</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <!-- [NOTA DE OBSERVAÇÃO]: Quando não houver cuidadores ativos (is_cuidador=true), exibe mensagem de incentivo com link direto para se tornar cuidador -->
+                <p style="grid-column: 1 / -1; color: #64748b;">Ainda não há cuidadores cadastrados nesta região. <a href="{% url 'tornar_cuidador' %}" style="color: #ea580c; font-weight: 700;">Seja um cuidador!</a></p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- PETS DISPONÍVEIS -->
+    <section class="featured-products">
+        <div class="section-heading">
+            <h2>Pets Disponíveis</h2>
+            <a href="{% url 'cadastrar_pet' %}">Cadastrar meu pet →</a>
+        </div>
+        <div class="grid-clean">
+            {% for pet in pets %}
+                <div class="minimal-card">
+                    <div class="card-img">
+                        <img src="{% if pet.foto_url %}{{ pet.foto_url }}{% else %}{% static 'CA1.png' %}{% endif %}"
+                             onerror="this.onerror=null;this.src='{% static 'CA1.png' %}'"
+                             alt="Foto de {{ pet.nome }}"
+                             loading="lazy">
+                    </div>
+                    <div class="card-details">
+                        <span class="category">{{ pet.especie }}{% if pet.raca %} • {{ pet.raca }}{% endif %}</span>
+                        <h3>{{ pet.nome }}</h3>
+                        <p class="location">📍 {{ pet.localizacao }}</p>
+                        <div class="card-meta">
+                            <span class="price">{{ pet.porte|default:'Porte não informado' }}</span>
+                            <a href="{% url 'detalhes_pet' pet.id %}" class="view-more">Ver perfil →</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p style="grid-column: 1 / -1; color: #64748b;">Nenhum pet cadastrado no momento. <a href="{% url 'cadastrar_pet' %}" style="color: #ea580c; font-weight: 700;">Cadastre o seu agora.</a></p>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+
+<footer class="container footer-content" style="margin-top: 4rem; padding: 2rem 0; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; color: #64748b; font-size: 0.9rem;">
+    <p>© 2026 PetMee. Cuidado, carinho e segurança para seu pet.</p>
+    <div style="display: flex; gap: 1.5rem;">
+        <a href="{% url 'sobre' %}" style="color: inherit; text-decoration: none;">Sobre</a>
+        <a href="{% url 'petshops' %}" style="color: inherit; text-decoration: none;">Petshops</a>
+        <a href="{% url 'loja' %}" style="color: inherit; text-decoration: none;">Loja</a>
+    </div>
+</footer>
+{% endblock %}

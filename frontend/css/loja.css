@@ -1,0 +1,36 @@
+.shop-page { padding: 4rem 0 6rem; }
+.shop-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2.5rem; }
+.eyebrow { margin: 0 0 .5rem; color: #f97316; font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.shop-heading h1 { margin: 0 0 .6rem; font: 800 clamp(2.5rem, 6vw, 4.5rem)/1 "Outfit", sans-serif; }
+.shop-heading p:not(.eyebrow) { margin: 0; color: #6b7280; }
+.orange-button, .shop-filter button { border: 0; border-radius: 12px; padding: .85rem 1.1rem; background: #f97316; color: white; font-weight: 700; text-decoration: none; cursor: pointer; }
+.orange-button:hover, .shop-filter button:hover { background: #ea580c; }
+.shop-layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: 2rem; align-items: start; }
+.shop-filter { padding: 1.25rem; background: white; border: 1px solid #e5e7eb; border-radius: 20px; box-shadow: 0 12px 28px rgba(17,24,39,.05); }
+.shop-filter summary { cursor: pointer; list-style: none; font: 800 1.25rem "Outfit", sans-serif; }
+.shop-filter summary::-webkit-details-marker { display: none; }
+.shop-filter form { display: grid; gap: 1rem; margin-top: 1.25rem; }
+.shop-filter label { display: grid; gap: .4rem; color: #374151; font-size: .8rem; font-weight: 700; }
+.shop-filter input, .shop-filter select { width: 100%; padding: .72rem .75rem; border: 1px solid #d1d5db; border-radius: 10px; background: white; font: inherit; font-weight: 400; }
+.shop-filter input:focus, .shop-filter select:focus { outline: 3px solid rgba(249,115,22,.16); border-color: #f97316; }
+.price-fields { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.clear-shop-filter { color: #f97316; font-size: .85rem; text-align: center; text-decoration: none; }
+.results-caption { display: flex; justify-content: space-between; margin-bottom: 1rem; color: #6b7280; font-size: .9rem; }
+.results-caption strong { color: #111827; }
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.3rem; }
+.product-card { overflow: hidden; background: white; border: 1px solid #e5e7eb; border-radius: 20px; box-shadow: 0 8px 24px rgba(17,24,39,.05); transition: transform .2s ease, box-shadow .2s ease; }
+.product-card:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(17,24,39,.1); }
+.product-photo { height: 180px; overflow: hidden; background: #fff7ed; }
+.product-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.product-info { padding: 1.1rem; }
+.product-info h2 { margin: .35rem 0 .45rem; font-size: 1.12rem; }
+.product-description { min-height: 2.8rem; margin: 0; color: #6b7280; font-size: .85rem; }
+.seller { margin: .8rem 0; color: #9a3412; font-size: .78rem; font-weight: 700; }
+.product-footer { display: flex; align-items: end; justify-content: space-between; gap: .5rem; padding-top: .8rem; border-top: 1px solid #f3f4f6; }
+.product-footer strong { font-size: 1.25rem; }
+.product-footer span { color: #6b7280; font-size: .72rem; text-align: right; }
+.empty-state { grid-column: 1 / -1; padding: 3rem 1rem; border: 1px dashed #fdba74; border-radius: 20px; background: #fffaf5; text-align: center; }
+.empty-state strong { font: 700 1.25rem "Outfit", sans-serif; }
+.empty-state p { color: #6b7280; }
+.empty-state a { color: #f97316; font-weight: 700; text-decoration: none; }
+@media (max-width: 700px) { .shop-heading { align-items: start; flex-direction: column; } .shop-layout { grid-template-columns: 1fr; } }

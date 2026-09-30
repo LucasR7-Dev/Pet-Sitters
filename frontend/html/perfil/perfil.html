@@ -1,0 +1,317 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ perfil.nome_completo }} | PetMee{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'perfil/perfil_usuario.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="profile-page container">
+    <!-- CARTÃO PRINCIPAL DO USUÁRIO -->
+    <section class="profile-card">
+        <img class="avatar"
+             src="{% if perfil.avatar_url %}{{ perfil.avatar_url }}{% else %}{% static 'CA1.png' %}{% endif %}"
+             onerror="this.onerror=null;this.src='{% static 'CA1.png' %}'"
+             alt="Foto de {{ perfil.nome_completo }}">
+        
+        <div class="profile-info">
+            <div class="profile-badges">
+                {% if perfil.tipo_usuario == 'petshop' %}
+                    <span class="badge-cuidador" style="background: #0284c7;">🏪 Petshop Parceiro</span>
+                    {% if perfil.preco_hora %}
+                        <span class="badge-hourly-rate" style="background: #ecfdf5; color: #059669; border-color: #a7f3d0;">🏨 Hospedagem: R$ {{ perfil.preco_hora }}/hora</span>
+                    {% endif %}
+                {% else %}
+                    {% if perfil.is_cuidador %}
+                        <span class="badge-cuidador">🐾 Cuidador Verificado</span>
+                        {% if perfil.preco_hora %}
+                            <span class="badge-hourly-rate">💰 R$ {{ perfil.preco_hora }}/hora</span>
+                        {% endif %}
+                    {% else %}
+                        <span class="badge-hourly-rate" style="background: #f1f5f9; color: #475569; border-color: #cbd5e1;">Tutor PetMee</span>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <h1>{{ perfil.nome_completo }}</h1>
+            
+            <p class="profile-location">
+                📍 {{ perfil.cidade|default:'Localização não informada' }}{% if perfil.estado %}, {{ perfil.estado }}{% endif %}
+                {% if perfil.tipo_usuario != 'petshop' and perfil.idade %} • 🎂 {{ perfil.idade }} anos{% endif %}
+            </p>
+
+            {% if perfil.tipo_usuario == 'petshop' %}
+                <!-- [NOTA DE OBSERVAÇÃO]: Atendimento e Hospedagem exclusivos para Petshops (sem idade e sem gênero) -->
+                <div style="margin: 0.6rem 0; display: flex; flex-wrap: wrap; gap: 0.6rem;">
+                    <span style="background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5; padding: 0.35rem 0.85rem; border-radius: 999px; font-weight: 700; font-size: 0.85rem;">
+                        🛠️ Atendimento: {{ petshop_dados.trabalhos|default:perfil.bio|default:'Banho, Tosa e Cuidados' }}
+                    </span>
+                    {% if perfil.preco_hora %}
+                        <span style="background: #ecfdf5; color: #059669; border: 1px solid #d1fae5; padding: 0.35rem 0.85rem; border-radius: 999px; font-weight: 700; font-size: 0.85rem;">
+                            🏨 Hospedagem disponível: R$ {{ perfil.preco_hora }}/hora
+                        </span>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            <div class="profile-bio-box">
+                <h3>{% if perfil.tipo_usuario == 'petshop' %}Sobre o Estabelecimento{% else %}Sobre mim{% endif %}</h3>
+                <p>{{ perfil.bio|default:'Este perfil ainda não adicionou uma descrição.' }}</p>
+            </div>
+        </div>
+
+        {% if is_owner %}
+            <a class="btn-edit-profile" href="{% url 'editar_perfil' perfil.id %}">
+                ✎ Editar dados e foto
+            </a>
+        {% endif %}
+    </section>
+
+    <!-- FORMULÁRIOS DE GESTÃO DO DONO DO PERFIL -->
+    {% if is_owner %}
+        {% if perfil.tipo_usuario == 'petshop' %}
+            <!-- [NOTA DE OBSERVAÇÃO]: Painel exclusivo para Petshops. Substitui o formulário de cuidador individual por gestão de Atendimento e Hospedagem -->
+            <section class="caregiver-activation-card" id="secao-petshop" style="border-left: 5px solid #0284c7;">
+                <div class="card-top">
+                    <div>
+                        <h2>🏪 Gestão de Atendimento & Hospedagem do Petshop</h2>
+                        <p class="intro">
+                            Mantenha os serviços do seu estabelecimento atualizados. O valor por hora aplica-se caso você ofereça o serviço de hospedagem.
+                        </p>
+                    </div>
+                </div>
+
+                <form method="POST" class="caregiver-form-grid">
+                    {% csrf_token %}
+
+                    <div class="cg-field" style="grid-column: span 2;">
+                        <label for="trabalhos_petshop">Atendimento & Serviços oferecidos *</label>
+                        <input type="text"
+                               id="trabalhos_petshop"
+                               name="trabalhos"
+                               value="{{ petshop_dados.trabalhos|default:'' }}"
+                               placeholder="Ex: Banho e Tosa, Consultas, Vacinas, Hospedagem"
+                               required>
+                    </div>
+
+                    <div class="cg-field">
+                        <label>Serviço de Hospedagem</label>
+                        <div style="display: flex; align-items: center; gap: 0.75rem; margin-top: 0.6rem;">
+                            <input type="checkbox"
+                                   id="tem_hospedagem"
+                                   name="tem_hospedagem"
+                                   style="width: 20px; height: 20px; accent-color: #0284c7; cursor: pointer;"
+                                   {% if perfil.preco_hora %}checked{% endif %}
+                                   onchange="document.getElementById('preco_hospedagem_wrap').style.display = this.checked ? 'block' : 'none';">
+                            <label for="tem_hospedagem" style="margin: 0; cursor: pointer; font-weight: 600; color: #334155;">Oferece serviço de Hospedagem</label>
+                        </div>
+                    </div>
+
+                    <div class="cg-field" id="preco_hospedagem_wrap" style="{% if not perfil.preco_hora %}display: none;{% endif %}">
+                        <label for="preco_hora_petshop">Valor da Hospedagem por hora (R$)</label>
+                        <div class="price-input-wrapper">
+                            <span class="price-prefix">R$</span>
+                            <input type="number"
+                                   id="preco_hora_petshop"
+                                   name="preco_hora"
+                                   step="0.50"
+                                   min="5"
+                                   max="500"
+                                   value="{{ perfil.preco_hora|default:'' }}"
+                                   placeholder="Ex: 25.00">
+                        </div>
+                    </div>
+
+                    <div class="cg-field cg-field-full" style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem; flex-wrap: wrap;">
+                        <button type="submit" class="btn-submit-caregiver" style="background: #0284c7; flex: 1; min-width: 240px;">
+                            Salvar Configurações do Petshop
+                        </button>
+                        <a href="{% url 'cadastrar_produto' %}" class="btn-submit-caregiver" style="background: #f97316; text-decoration: none; text-align: center; flex: 1; min-width: 240px;">
+                            🛍️ Gerenciar / Cadastrar Produtos
+                        </a>
+                    </div>
+                </form>
+            </section>
+        {% else %}
+            <!-- FORMULÁRIO DE CUIDADOR (APENAS PARA TUTORES/PESSOAS FÍSICAS) -->
+            <section class="caregiver-activation-card" id="secao-cuidador">
+                <div class="card-top">
+                    <div>
+                        <h2>
+                            {% if perfil.is_cuidador %}
+                                ⚙️ Seus Dados como Cuidador PetMee
+                            {% else %}
+                                🐾 Deseja se tornar um Cuidador PetMee?
+                            {% endif %}
+                        </h2>
+                        <p class="intro">
+                            {% if perfil.is_cuidador %}
+                                Mantenha suas informações, disponibilidade e o valor que você cobra por hora sempre atualizados.
+                            {% else %}
+                                Preencha suas informações abaixo, defina quanto você cobra por hora e comece a receber pedidos para cuidar de pets!
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+
+                <form action="{% url 'tornar_cuidador' %}" method="POST" class="caregiver-form-grid">
+                    {% csrf_token %}
+
+                    <!-- VALOR COBRADO POR HORA -->
+                    <div class="cg-field">
+                        <label for="preco_hora">Valor cobrado por hora *</label>
+                        <div class="price-input-wrapper">
+                            <span class="price-prefix">R$</span>
+                            <input type="number"
+                                   id="preco_hora"
+                                   name="preco_hora"
+                                   step="0.50"
+                                   min="10"
+                                   max="500"
+                                   value="{{ perfil.preco_hora|default:'' }}"
+                                   placeholder="Ex: 35.00"
+                                   required>
+                        </div>
+                    </div>
+
+                    <!-- IDADE (21 a 60 anos) -->
+                    <div class="cg-field">
+                        <label for="idade_cuidador">Sua Idade (21 a 60 anos) *</label>
+                        <input type="number"
+                               id="idade_cuidador"
+                               name="idade"
+                               min="21"
+                               max="60"
+                               value="{{ perfil.idade|default:'21' }}"
+                               required>
+                    </div>
+
+                    <!-- GÊNERO -->
+                    <div class="cg-field">
+                        <label for="genero">Gênero *</label>
+                        <select id="genero" name="genero" required>
+                            <option value="">Selecione...</option>
+                            <option value="feminino" {% if perfil.genero == 'feminino' %}selected{% endif %}>Feminino</option>
+                            <option value="masculino" {% if perfil.genero == 'masculino' %}selected{% endif %}>Masculino</option>
+                        </select>
+                    </div>
+
+                    <!-- ESTADO -->
+                    <div class="cg-field">
+                        <label for="estado_cuidador">Estado (UF) *</label>
+                        <select id="estado_cuidador" name="estado" required>
+                            <option value="">Selecione o estado</option>
+                            {% for est in estados %}
+                                <option value="{{ est.sigla }}" {% if perfil.estado == est.sigla %}selected{% endif %}>
+                                    {{ est.nome }} ({{ est.sigla }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- CIDADE -->
+                    <div class="cg-field" style="grid-column: span 2;">
+                        <label for="cidade_cuidador">Cidade de Atendimento *</label>
+                        <input type="text"
+                               id="cidade_cuidador"
+                               name="cidade"
+                               value="{{ perfil.cidade|default:'' }}"
+                               placeholder="Ex: São Paulo, Campinas, etc."
+                               required>
+                    </div>
+
+                    <!-- BIO / APRESENTAÇÃO COMO CUIDADOR -->
+                    <div class="cg-field cg-field-full">
+                        <label for="bio_cuidador">Experiência e Cuidados oferecidos</label>
+                        <textarea id="bio_cuidador"
+                                  name="bio"
+                                  rows="3"
+                                  placeholder="Conte sua experiência com pets, espaço da sua casa, se tem quintal, se aplica medicamentos, rotina de passeios...">{{ perfil.bio|default:'' }}</textarea>
+                    </div>
+
+                    <!-- BOTÃO DE SUBMISSÃO -->
+                    <button type="submit" class="btn-submit-caregiver">
+                        {% if perfil.is_cuidador %}
+                            Salvar e Atualizar Perfil de Cuidador
+                        {% else %}
+                            ✨ Ativar Meu Perfil de Cuidador PetMee
+                        {% endif %}
+                    </button>
+                </form>
+            </section>
+        {% endif %}
+    {% endif %}
+
+    <!-- GRADE DE CONTEÚDO: PETS CADASTRADOS E AVALIAÇÕES -->
+    <div class="profile-content-grid">
+        <!-- AVALIAÇÕES -->
+        <section class="content-box">
+            <h2>
+                Avaliações da Comunidade
+                {% if media_avaliacoes %}
+                    <span style="color: #f59e0b; font-size: 1rem;">★ {{ media_avaliacoes }}/5</span>
+                {% endif %}
+            </h2>
+
+            {% for avaliacao in avaliacoes %}
+                <article class="review-item">
+                    <div class="review-header">
+                        <span class="review-stars">★ {{ avaliacao.nota }}/5.0</span>
+                        <span class="review-date">{{ avaliacao.created_at|date:'d/m/Y' }}</span>
+                    </div>
+                    <p class="review-comment">{{ avaliacao.comentario }}</p>
+                </article>
+            {% empty %}
+                <p style="color: #94a3b8; font-size: 0.95rem;">Ainda não há avaliações cadastradas para este perfil.</p>
+            {% endfor %}
+        </section>
+
+        <!-- LATERAL: INFORMAÇÕES E SELOS -->
+        <aside class="content-box">
+            <h2>Sobre a Conta</h2>
+            <div style="display: flex; flex-direction: column; gap: 0.8rem; font-size: 0.9rem; color: #475569;">
+                <p style="margin: 0;">✓ Membro da Comunidade PetMee</p>
+                {% if perfil.is_cuidador %}
+                    <p style="margin: 0; color: #f97316; font-weight: 700;">🐾 Disponível para Cuidar de Pets</p>
+                    {% if perfil.preco_hora %}
+                        <p style="margin: 0; color: #059669; font-weight: 700;">💵 R$ {{ perfil.preco_hora }}/hora</p>
+                    {% endif %}
+                {% endif %}
+                <p style="margin: 0;">⭐ Avaliação média: <strong>{{ media_avaliacoes|default:'Novo usuário' }}</strong></p>
+                <p style="margin: 0;">🛡️ Conta protegida com autenticação</p>
+            </div>
+        </aside>
+    </div>
+
+    <!-- SE NÃO FOR O DONO: FORMULÁRIO PARA DEIXAR AVALIAÇÃO -->
+    {% if not is_owner %}
+        <section class="review-form-card">
+            <h2 style="font-family: 'Outfit', sans-serif; margin: 0 0 1rem; color: #1e293b;">Avaliar {{ perfil.nome_completo }}</h2>
+            <form action="{% url 'criar_avaliacao' perfil.id %}" method="POST">
+                {% csrf_token %}
+                <div style="display: grid; grid-template-columns: 200px 1fr; gap: 1rem;">
+                    <select name="nota" required style="padding: 0.8rem; border-radius: 12px; border: 1px solid #cbd5e1;">
+                        <option value="">Selecione a nota</option>
+                        <option value="5">⭐⭐⭐⭐⭐ (5 - Excelente)</option>
+                        <option value="4">⭐⭐⭐⭐ (4 - Muito bom)</option>
+                        <option value="3">⭐⭐⭐ (3 - Bom)</option>
+                        <option value="2">⭐⭐ (2 - Regular)</option>
+                        <option value="1">⭐ (1 - Ruim)</option>
+                    </select>
+                    <textarea name="comentario"
+                              required
+                              rows="2"
+                              placeholder="Escreva como foi sua experiência com este tutor ou cuidador..."
+                              style="padding: 0.8rem; border-radius: 12px; border: 1px solid #cbd5e1; font-family: inherit;"></textarea>
+                </div>
+                <button type="submit"
+                        style="align-self: flex-start; background: #f97316; color: white; border: none; padding: 0.85rem 1.8rem; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 0.8rem;">
+                    Publicar Avaliação
+                </button>
+            </form>
+        </section>
+    {% endif %}
+</main>
+{% endblock %}

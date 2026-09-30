@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}PetMee | Petshops{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'petshops.css' %}">{% endblock %}
+
+{% block content %}
+<main class="petshops-page container">
+    <section class="petshops-hero">
+        <div class="petshops-hero-copy">
+            <p class="eyebrow">Tudo para uma rotina mais feliz</p>
+            <h1>Petshops perto de <span>você.</span></h1>
+            {% if user_location.cidade %}
+                <p>Encontramos parceiros em <strong>{{ user_location.cidade }}{% if user_location.estado %}, {{ user_location.estado }}{% endif %}</strong> e em outras regiões.</p>
+            {% else %}
+                <p>Descubra petshops parceiros e encontre o que seu pet precisa em um só lugar.</p>
+            {% endif %}
+            <a class="orange-button" href="{% url 'loja' %}">Explorar produtos <span>→</span></a>
+        </div>
+        <div class="petshops-hero-art">
+            <img src="{% static 'CPA.png' %}" alt="Produtos para pets" onerror="this.onerror=null;this.src='{% static 'CA1.png' %}'">
+            <span class="art-tag">Parceiros PetMee</span>
+        </div>
+    </section>
+
+    <section class="petshops-section">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Comércios selecionados</p>
+                <h2>Petshops na sua região</h2>
+            </div>
+            <span class="result-count">{{ petshops|length }} parceiro{{ petshops|length|pluralize:"s" }}</span>
+        </div>
+        <div class="petshop-grid">
+            {% for petshop in petshops %}
+                <a class="petshop-card-link" href="{% url 'perfil_usuario' petshop.id %}">
+                    <article class="petshop-card">
+                        <div class="petshop-image">
+                            <img src="{% if petshop.avatar_url %}{{ petshop.avatar_url }}{% else %}{% static 'CPA.png' %}{% endif %}" onerror="this.onerror=null;this.src='{% static 'CPA.png' %}'" alt="Imagem de {{ petshop.nome_completo }}" loading="lazy">
+                            <span class="distance-tag">{{ petshop.proximidade }}</span>
+                        </div>
+                        <div class="petshop-info">
+                            <span class="category">Petshop parceiro</span>
+                            <h3>{{ petshop.nome_exibicao }}</h3>
+                            <p class="petshop-location">⌖ {{ petshop.cidade_display }}{% if petshop.estado_display %}, {{ petshop.estado_display }}{% endif %}</p>
+                            {% if petshop.trabalhos %}
+                                <p style="font-size: 0.8rem; color: #ea580c; font-weight: 600; margin: 0.4rem 0;">🛠️ {{ petshop.trabalhos }}</p>
+                            {% endif %}
+                            <span class="petshop-link">Ver produtos e serviços <b>↗</b></span>
+                        </div>
+                    </article>
+                </a>
+            {% empty %}
+                <div class="empty-petshops">
+                    <img src="{% static 'CPA.png' %}" alt="" aria-hidden="true">
+                    <div>
+                        <strong>Ainda não há petshops cadastrados</strong>
+                        <p>Em breve você poderá encontrar parceiros PetMee perto da sua região.</p>
+                    </div>
+                    <a href="{% url 'loja' %}">Ir para a loja</a>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% endblock %}

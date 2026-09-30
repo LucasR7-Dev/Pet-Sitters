@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "DM Sans", sans-serif;
+}
+
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background-color: white;
+    
+}
+
+
+.Login_square{
+    width: 420px;
+    background-color: #f97316;
+    border: 2px solid rgba(223, 134, 0, 0.433);
+    border-radius: 10px;
+    color: #fff;
+    padding: 30px 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.621);
+}
+
+
+.User_inputs{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    height: 50px;
+    margin: 30px 0;
+    
+}
+
+.Username_inputs input{
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, .8);
+    border-radius: 35px;
+    outline: none;
+    font-size: 20px;
+    color: white;
+    padding: 20px 45px 20px 20px;
+}
+
+.User_password input{
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, .8);
+    border-radius: 35px;
+    outline: none;
+    font-size: 20px;
+    color: #fff;
+    padding: 20px 45px 20px 20px;
+}
+
+
+.User_inputs input::placeholder{
+    color: #fff;
+}
+
+.User_inputs h1{
+    text-align: center;
+}
+
+.Login_square button{
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    font-size: 25px;
+    color: black;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(0,0,0, .8) ;
+}
+
+.Login_square button:hover{
+    background-color: transparent;
+    border: 2px;
+    color: white;
+    transition: 0.6s;
+}
+
+.Check-box_1 input{
+    align-items: center;
+    
+}
+
+.Non-account{
+    text-align: center;
+    font-size: 12px;
+    margin: 20px 0 15px; 
+}
+.Non-account a{
+    text-decoration: none;
+    color:#fff;
+    font-weight: 500;
+}
+
+.Non-account a:hover{
+    text-decoration: underline;
+}
+
+.Check-box_1{
+    text-align: center;
+    color: white;
+    font-weight: 300;
+    margin: 15px;
+    font-size: 14px;
+}
+.Check-box_1 a{
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+}
+
+.Check-box_1 a:hover{
+    text-decoration: underline;
+}
+

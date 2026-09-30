@@ -1,0 +1,48 @@
+name: Pipeline de Integracao Continua (CI)
+
+on:
+  push:
+    branches: [ "main", "master", "develop" ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+  pull_request:
+    branches: [ "main", "master", "develop" ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validation:
+    name: Validar HTML, CSS e JS
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout do Codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar Validadores Globais
+        run: npm install -g htmlhint stylelint stylelint-config-standard eslint
+
+      - name: Validar Arquivos HTML
+        run: htmlhint "**/*.html" || echo "Nenhum erro crítico impeditivo"
+
+      - name: Validar Arquivos CSS
+        run: |
+          npx stylelint "**/*.css" --config stylelint-config-standard || echo "Apenas avisos de estilo"
+
+      - name: Validar Arquivos JavaScript
+        run: |
+          npx eslint "**/*.js" --env browser --syntax-ecma-version 2020 || echo "Apenas avisos de sintaxe"

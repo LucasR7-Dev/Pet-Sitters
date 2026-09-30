@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}PetMee | Encontre um Cuidador{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'search_cuidadores.css' %}">{% endblock %}
+
+{% block content %}
+<main class="caregiver-page container">
+    <!-- HERO SECTION -->
+    <section class="caregiver-hero">
+        <div>
+            <p class="eyebrow">Rede de Cuidado PetMee</p>
+            <h1>Encontre alguém para cuidar do seu <span>melhor amigo.</span></h1>
+            <p class="hero-copy">Busca avançada com filtros por estado, cidade, valor por hora, idade e avaliação de cuidadores da nossa comunidade.</p>
+        </div>
+        <a class="hero-action" href="{% url 'meu_perfil' %}#secao-cuidador">Quero ser cuidador <span>↗</span></a>
+    </section>
+
+    <div class="caregiver-layout">
+        <!-- SIDEBAR DE FILTROS COM API INTERNA DE ESTADO E CIDADE -->
+        <aside class="sidebar-filter">
+            <div class="filter-heading">
+                <span class="filter-icon">⌕</span>
+                <div>
+                    <p class="eyebrow">Busca Avançada</p>
+                    <h2>Filtros</h2>
+                </div>
+            </div>
+            
+            <form method="GET" action="{% url 'search_cuidadores' %}">
+                <!-- LOCALIZAÇÃO (ALIMENTADA PELA API INTERNA /api/estados/ e /api/cidades/) -->
+                <fieldset>
+                    <legend>Localização</legend>
+                    <label for="estado">Estado</label>
+                    <select id="estado" name="estado" class="filter-control">
+                        <option value="">Todos os estados</option>
+                        {% for est in estados %}
+                            <option value="{{ est.sigla }}" {% if filters.estado == est.sigla %}selected{% endif %}>
+                                {{ est.nome }} ({{ est.sigla }})
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <label for="cidade" style="margin-top: 0.6rem;">Cidade</label>
+                    <select id="cidade" name="cidade" class="filter-control" {% if not filters.estado %}disabled{% endif %}>
+                        <option value="">{% if filters.cidade %}{{ filters.cidade }}{% else %}Todas as cidades{% endif %}</option>
+                    </select>
+                </fieldset>
+
+                <!-- IDADE -->
+                <fieldset>
+                    <legend>Idade do Cuidador</legend>
+                    <p class="filter-hint">Cuidadores verificados de 21 a 60 anos.</p>
+                    <div class="age-fields">
+                        <label for="idade_min">De
+                            <input id="idade_min" type="number" name="idade_min" value="{{ filters.idade_min }}" min="21" max="60">
+                        </label>
+                        <label for="idade_max">Até
+                            <input id="idade_max" type="number" name="idade_max" value="{{ filters.idade_max }}" min="21" max="60">
+                        </label>
+                    </div>
+                </fieldset>
+
+                <!-- GÊNERO -->
+                <fieldset>
+                    <legend>Gênero</legend>
+                    <label class="radio-option"><input type="radio" name="genero" value="" {% if not filters.genero %}checked{% endif %}> Todos</label>
+                    <label class="radio-option"><input type="radio" name="genero" value="feminino" {% if filters.genero == 'feminino' %}checked{% endif %}> Mulher</label>
+                    <label class="radio-option"><input type="radio" name="genero" value="masculino" {% if filters.genero == 'masculino' %}checked{% endif %}> Homem</label>
+                </fieldset>
+
+                <!-- AVALIAÇÃO MÍNIMA -->
+                <fieldset>
+                    <legend>Avaliação Mínima</legend>
+                    <label class="radio-option"><input type="radio" name="estrelas" value="" {% if not filters.estrelas %}checked{% endif %}> Todas as notas</label>
+                    {% for nota in "54321" %}
+                        <label class="radio-option">
+                            <input type="radio" name="estrelas" value="{{ nota }}" {% if filters.estrelas == nota %}checked{% endif %}>
+                            {{ nota }} estrelas ou mais
+                        </label>
+                    {% endfor %}
+                </fieldset>
+
+                <button class="filter-submit" type="submit">Aplicar Filtros <span>→</span></button>
+                <a class="clear-filters" href="{% url 'search_cuidadores' %}">Limpar filtros</a>
+            </form>
+        </aside>
+
+        <!-- RESULTADOS DA BUSCA -->
+        <section class="caregiver-results">
+            <div class="results-caption">
+                <div>
+                    <p class="eyebrow">Cuidadores Ativos</p>
+                    <h2>{{ cuidadores|length }} cuidador{{ cuidadores|length|pluralize:"es" }} encontrado{{ cuidadores|length|pluralize:"s" }}</h2>
+                </div>
+                {% if filters.estado or filters.cidade or filters.genero or filters.estrelas %}
+                    <span class="active-filter">Filtros Ativos</span>
+                {% endif %}
+            </div>
+
+            <div class="caregiver-grid">
+                {% for cuidador in cuidadores %}
+                    <a class="caregiver-card-link" href="{% url 'perfil_usuario' cuidador.id %}">
+                        <article class="minimal-card">
+                            <div class="card-img">
+                                <img src="{% if cuidador.avatar_url %}{{ cuidador.avatar_url }}{% else %}{% static 'CA1.png' %}{% endif %}"
+                                     onerror="this.onerror=null;this.src='{% static 'CA1.png' %}'"
+                                     alt="Foto de {{ cuidador.nome_completo }}"
+                                     loading="lazy">
+                                <span class="verified-badge">✓ Perfil ativo</span>
+                            </div>
+                            <div class="card-details">
+                                <span class="category">Cuidador PetMee</span>
+                                <h3>{{ cuidador.nome_completo }}</h3>
+                                <p class="location">⌖ {{ cuidador.cidade|default:'Localização não informada' }}{% if cuidador.estado %}, {{ cuidador.estado }}{% endif %}</p>
+                                
+                                <div class="card-meta">
+                                    <span class="profile-age">{% if cuidador.idade %}{{ cuidador.idade }} anos{% else %}21–60 anos{% endif %}</span>
+                                    {% if cuidador.preco_hora %}
+                                        <strong style="color: #059669; font-size: 0.9rem;">R$ {{ cuidador.preco_hora }}/h</strong>
+                                    {% endif %}
+                                    <span class="rating">{% if cuidador.media_avaliacoes %}★ {{ cuidador.media_avaliacoes }}/5{% else %}Novo perfil{% endif %}</span>
+                                </div>
+                            </div>
+                        </article>
+                    </a>
+                {% empty %}
+                    <div class="empty-state">
+                        <img src="{% static 'CA2.png' %}" alt="" aria-hidden="true">
+                        <strong>Nenhum cuidador encontrado</strong>
+                        <p>Tente ajustar os filtros de estado e cidade ou seja o primeiro da sua região.</p>
+                        <a href="{% url 'meu_perfil' %}#secao-cuidador">Tornar-se Cuidador</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- Integração com a API Interna de Estados e Cidades -->
+<script>
+    window.petmeeLocationFilters = {
+        estado: "{{ filters.estado|escapejs }}",
+        cidade: "{{ filters.cidade|escapejs }}"
+    };
+</script>
+<script src="{% static 'ibge_api.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% load static %}<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> 
+    <link rel="stylesheet" href="{% static 'Login/Login.css' %}">
+    <title>PetMee | Página de Login</title>
+</head>
+<body>
+    <div class="Login_square">
+
+        <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            <h1>PetMee</h1>
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="message {{ message.tags }}">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+            <div class="Username_inputs">
+                <input placeholder="Seu email" type="email" name="email" required>
+                <i class="bx bxs-user"></i>
+            </div>
+            <div class="User_password">
+                <input placeholder="Senha" type="password" name="password" required>
+                <i class="bx bxs-lock-alt"></i>
+            </div>
+
+            <div class="Check-box_1">
+                <label>
+                    <input type="checkbox">
+                    <Lembre-se></Lembre-se>
+                </label>
+                <a href="#">| Esqueceu a senha?</a>
+            </div>
+            <button type="submit">Entrar</button>
+
+            <div class="Non-account">
+                <p>Não tem uma conta? <a href="{% url 'register' %}">Registra-se agora</a></p>
+            </div>
+
+
+        </form>
+    </div>
+</body>
+</html>

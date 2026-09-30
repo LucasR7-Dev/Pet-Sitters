@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}PetMee | Tornar cuidador{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'caregiver-form.css' %}">{% endblock %}
+
+{% block content %}
+<main class="form-page container">
+    <section class="form-intro">
+        <p class="eyebrow">Faça parte da rede PetMee</p>
+        <h1>Tornar-se cuidador</h1>
+        <p>Seu perfil só aparece em “Cuidadores cadastrados” depois que você envia este formulário.</p>
+    </section>
+    <form method="post" class="petmee-form">
+        {% csrf_token %}
+        <!-- [NOTA DE OBSERVAÇÃO]: Adicionado campo de valor cobrado por hora para que o card na página inicial exiba o preço corretamente -->
+        <div class="form-grid">
+            <label>Gênero
+                <select name="genero" required>
+                    <option value="">Selecione</option>
+                    <option value="feminino" {% if perfil.genero == 'feminino' %}selected{% endif %}>Mulher</option>
+                    <option value="masculino" {% if perfil.genero == 'masculino' %}selected{% endif %}>Homem</option>
+                </select>
+            </label>
+            <label>Idade
+                <input type="number" name="idade" min="21" max="60" value="{{ perfil.idade|default:'' }}" placeholder="Entre 21 e 60" required>
+            </label>
+            <label>Valor cobrado por hora (R$) *
+                <input type="number" name="preco_hora" step="0.50" min="10" max="500" value="{{ perfil.preco_hora|default:'35.00' }}" placeholder="Ex: 35.00" required>
+            </label>
+            <label>Estado
+                <select id="estado" name="estado" required>
+                    <option value="">Selecione o estado</option>
+                    {% for est in estados %}
+                        <option value="{{ est.sigla }}" {% if perfil.estado == est.sigla %}selected{% endif %}>{{ est.nome }} ({{ est.sigla }})</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>Cidade
+                <select id="cidade" name="cidade" required disabled>
+                    <option value="">Selecione o estado primeiro</option>
+                </select>
+            </label>
+        </div>
+        <p class="form-hint">Para manter a rede segura, os cuidadores cadastrados devem ter entre 21 e 60 anos.</p>
+        <label>Sobre sua experiência
+            <textarea name="bio" rows="6" placeholder="Conte sobre sua experiência com animais, rotina e serviços.">{{ perfil.bio|default:'' }}</textarea>
+        </label>
+        <button type="submit">Publicar meu perfil de cuidador</button>
+    </form>
+</main>
+<script>
+    window.petmeeLocationFilters = {
+        estado: "{{ perfil.estado|default:''|escapejs }}",
+        cidade: "{{ perfil.cidade|default:''|escapejs }}"
+    };
+</script>
+<script src="{% static 'ibge_api.js' %}"></script>
+{% endblock %}

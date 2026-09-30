@@ -1,0 +1,295 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'registro/registro.css' %}">
+    <title>PetMee | Registro</title>
+</head>
+<body>
+    <div class="register-container {% if aba_petshop %}wide-mode{% endif %}" id="registerWrapper">
+        <div class="register-box">
+            <a href="{% url 'inicio' %}" class="register-brand">PetMee 🐾</a>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="message {{ message.tags }}">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+
+            <!-- ============================================================== -->
+            <!-- 1. FORMULÁRIO DE CADASTRO TRADICIONAL (TUTOR / USUÁRIO)         -->
+            <!-- ============================================================== -->
+            <div id="formTutorArea" style="{% if aba_petshop %}display: none;{% endif %}">
+                <h1>Criar sua Conta</h1>
+                <p class="register-subtitle">Junte-se à comunidade de amantes de pets PetMee.</p>
+
+                <form action="{% url 'register' %}" method="POST" class="register-form">
+                    {% csrf_token %}
+                    
+                    <div class="input-group">
+                        <label for="nome">Nome Completo *</label>
+                        <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="email">Seu E-mail *</label>
+                        <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" autocomplete="off" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">Criar uma Senha *</label>
+                        <input type="password" id="password" name="password" placeholder="Crie uma senha segura" required>
+                    </div>
+
+                    <button type="submit" class="btn-primary-register">Criar Conta</button>
+                    
+                    <p class="login-link-note">
+                        Já possui uma conta? <a href="{% url 'login' %}">Fazer login</a>
+                    </p>
+                </form>
+
+                <!-- BOTÃO NO RODAPÉ DA PÁGINA PARA CADASTRAR PETSHOP -->
+                <footer class="register-footer-cta">
+                    <button type="button" class="btn-petshop-footer" onclick="toggleForm('petshop')">
+                        🏪 É um Petshop? Cadastre seu estabelecimento aqui
+                    </button>
+                </footer>
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- 2. FORMULÁRIO DE CADASTRO DE PETSHOP                           -->
+            <!-- ============================================================== -->
+            <div id="formPetshopArea" style="{% if not aba_petshop %}display: none;{% endif %}">
+                <h1>Cadastrar Petshop</h1>
+                <p class="register-subtitle">Apresente seus produtos e serviços veterinários para milhares de tutores.</p>
+
+                <form action="{% url 'cadastro_petshop' %}" method="POST" class="register-form" id="petshopForm">
+                    {% csrf_token %}
+
+                    <!-- NOME E EMAIL -->
+                    <div class="form-grid-2">
+                        <div class="input-group">
+                            <label for="ps_nome">Nome do Petshop / Razão Social *</label>
+                            <input type="text" id="ps_nome" name="nome" placeholder="Ex: Pet Center Amigo Fiel" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="ps_cnpj">CNPJ (Não precisa ser real para testes) *</label>
+                            <input type="text" id="ps_cnpj" name="cnpj" placeholder="00.000.000/0001-00">
+                        </div>
+                    </div>
+
+                    <!-- EMAIL E SENHA -->
+                    <div class="form-grid-2">
+                        <div class="input-group">
+                            <label for="ps_email">E-mail Comercial *</label>
+                            <input type="email" id="ps_email" name="email" placeholder="contato@petshop.com" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="ps_password">Senha de Acesso *</label>
+                            <input type="password" id="ps_password" name="password" placeholder="Crie uma senha" required>
+                        </div>
+                    </div>
+
+                    <!-- ENDEREÇO, CIDADE E ESTADO -->
+                    <div class="input-group">
+                        <label for="ps_endereco">Endereço Completo</label>
+                        <input type="text" id="ps_endereco" name="endereco" placeholder="Rua, número e bairro">
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="input-group">
+                            <label for="ps_estado">Estado (UF) *</label>
+                            <select id="ps_estado" name="estado" required>
+                                <option value="">Selecione o Estado</option>
+                                <option value="AC">Acre (AC)</option>
+                                <option value="AL">Alagoas (AL)</option>
+                                <option value="AP">Amapá (AP)</option>
+                                <option value="AM">Amazonas (AM)</option>
+                                <option value="BA">Bahia (BA)</option>
+                                <option value="CE">Ceará (CE)</option>
+                                <option value="DF">Distrito Federal (DF)</option>
+                                <option value="ES">Espírito Santo (ES)</option>
+                                <option value="GO">Goiás (GO)</option>
+                                <option value="MA">Maranhão (MA)</option>
+                                <option value="MT">Mato Grosso (MT)</option>
+                                <option value="MS">Mato Grosso do Sul (MS)</option>
+                                <option value="MG">Minas Gerais (MG)</option>
+                                <option value="PA">Pará (PA)</option>
+                                <option value="PB">Paraíba (PB)</option>
+                                <option value="PR">Paraná (PR)</option>
+                                <option value="PE">Pernambuco (PE)</option>
+                                <option value="PI">Piauí (PI)</option>
+                                <option value="RJ">Rio de Janeiro (RJ)</option>
+                                <option value="RN">Rio Grande do Norte (RN)</option>
+                                <option value="RS">Rio Grande do Sul (RS)</option>
+                                <option value="RO">Rondônia (RO)</option>
+                                <option value="RR">Roraima (RR)</option>
+                                <option value="SC">Santa Catarina (SC)</option>
+                                <option value="SP">São Paulo (SP)</option>
+                                <option value="SE">Sergipe (SE)</option>
+                                <option value="TO">Tocantins (TO)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="ps_cidade">Cidade *</label>
+                            <input type="text" id="ps_cidade" name="cidade" placeholder="Ex: São Paulo" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="ps_telefone">Telefone / WhatsApp de Contato</label>
+                        <input type="text" id="ps_telefone" name="telefone" placeholder="(11) 98765-4321">
+                    </div>
+
+                    <!-- ============================================================== -->
+                    <!-- TRABALHOS E SERVIÇOS (DIGITAÇÃO + BOLHAS DE PALAVRAS-CHAVE)    -->
+                    <!-- ============================================================== -->
+                    <div class="services-section">
+                        <span class="title">🛠️ Trabalhos e Serviços Prestados</span>
+                        <p class="hint">Clique nas bolhas de serviços comuns ou digite outros trabalhos personalizados:</p>
+
+                        <!-- Input para digitar trabalho personalizado -->
+                        <div class="custom-service-row">
+                            <input type="text" id="inputCustomWork" placeholder="Digite um trabalho (ex: Hotelzinho para cães) e clique em Adicionar">
+                            <button type="button" class="btn-add-service" onclick="addCustomWork()">+ Adicionar</button>
+                        </div>
+
+                        <!-- Bolhas de palavras-chave clicáveis com trabalhos comuns de petshop -->
+                        <div class="bubbles-container">
+                            <span class="bubble-chip" onclick="toggleKeywordBubble(this, 'Banho e Tosa')">✂️ Banho e Tosa</span>
+                            <span class="bubble-chip" onclick="toggleKeywordBubble(this, 'Vacinação')">💉 Vacinação</span>
+                            <span class="bubble-chip" onclick="toggleKeywordBubble(this, 'Consulta Veterinária')">🩺 Consulta Veterinária</span>
+                            <span class="bubble-chip" onclick="toggleKeywordBubble(this, 'Hospedagem / Hotelzinho')">🏨 Hospedagem / Hotelzinho</span>
+                            <span class="bubble-chip" onclick="toggleKeywordBubble(this, 'Creche / Daycare')">🎾 Creche / Daycare</span>
+                            <span class="bubble-chip" onclick="toggleKeywordBubble(this, 'Adestramento')">🐕 Adestramento</span>
+                            <span class="bubble-chip" onclick="toggleKeywordBubble(this, 'Táxi Dog (Leva e Traz)')">🚕 Táxi Dog (Leva e Traz)</span>
+                            <span class="bubble-chip" onclick="toggleKeywordBubble(this, 'Farmácia Veterinária')">💊 Farmácia Veterinária</span>
+                            <span class="bubble-chip" onclick="toggleKeywordBubble(this, 'Rações e Acessórios')">🦴 Rações e Acessórios</span>
+                            <span class="bubble-chip" onclick="toggleKeywordBubble(this, 'Limpeza de Tártaro')">🦷 Limpeza de Tártaro</span>
+                            <span class="bubble-chip" onclick="toggleKeywordBubble(this, 'Cirurgias Gerais')">🏥 Cirurgias Gerais</span>
+                            <span class="bubble-chip" onclick="toggleKeywordBubble(this, 'Microchipagem')">📍 Microchipagem</span>
+                        </div>
+
+                        <!-- Lista visual dos trabalhos selecionados -->
+                        <div style="margin-top: 0.5rem;">
+                            <label style="font-size: 0.75rem; font-weight: 700; color: #78716c; text-transform: uppercase;">Serviços Selecionados:</label>
+                            <div class="selected-tags-box" id="selectedTagsBox">
+                                <span style="font-size: 0.8rem; color: #a8a29e;" id="placeholderNoTags">Nenhum serviço selecionado ainda.</span>
+                            </div>
+                        </div>
+
+                        <!-- Campo oculto para envio ao backend -->
+                        <input type="hidden" name="trabalhos" id="hiddenTrabalhosInput" value="">
+                    </div>
+
+                    <button type="submit" class="btn-primary-register">Concluir Cadastro de Petshop</button>
+                    
+                    <p class="login-link-note">
+                        Já tem uma conta de petshop? <a href="{% url 'login' %}">Fazer login</a>
+                    </p>
+                </form>
+
+                <!-- BOTÃO NO RODAPÉ DO FORMULÁRIO DE PETSHOP PARA VOLTAR AO DE TUTOR -->
+                <footer class="register-footer-cta">
+                    <button type="button" class="btn-petshop-footer" onclick="toggleForm('tutor')">
+                        👤 Voltar para o Cadastro de Usuário / Tutor
+                    </button>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE GERENCIAMENTO DAS BOLHAS DE PALAVRAS-CHAVE E ALTERNÂNCIA -->
+    <script>
+        const selectedWorks = new Set();
+
+        function toggleForm(tipo) {
+            const formTutor = document.getElementById('formTutorArea');
+            const formPetshop = document.getElementById('formPetshopArea');
+            const wrapper = document.getElementById('registerWrapper');
+
+            if (tipo === 'petshop') {
+                formTutor.style.display = 'none';
+                formPetshop.style.display = 'block';
+                wrapper.classList.add('wide-mode');
+            } else {
+                formPetshop.style.display = 'none';
+                formTutor.style.display = 'block';
+                wrapper.classList.remove('wide-mode');
+            }
+        }
+
+        // Adiciona ou remove palavra-chave clicada na bolha
+        function toggleKeywordBubble(element, workName) {
+            if (selectedWorks.has(workName)) {
+                selectedWorks.delete(workName);
+                element.classList.remove('selected');
+            } else {
+                selectedWorks.add(workName);
+                element.classList.add('selected');
+            }
+            renderSelectedTags();
+        }
+
+        // Adiciona trabalho digitado manualmente
+        function addCustomWork() {
+            const input = document.getElementById('inputCustomWork');
+            const value = input.value.trim();
+            if (value) {
+                selectedWorks.add(value);
+                input.value = '';
+                renderSelectedTags();
+            }
+        }
+
+        // Permitir adicionar apertando Enter no campo de digitação
+        document.getElementById('inputCustomWork').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addCustomWork();
+            }
+        });
+
+        // Remove tag da lista
+        function removeTag(workName) {
+            selectedWorks.delete(workName);
+            // Sincroniza o estado visual das bolhas pré-definidas
+            document.querySelectorAll('.bubble-chip').forEach(chip => {
+                if (chip.textContent.includes(workName)) {
+                    chip.classList.remove('selected');
+                }
+            });
+            renderSelectedTags();
+        }
+
+        // Renderiza as tags ativas e sincroniza o input oculto
+        function renderSelectedTags() {
+            const container = document.getElementById('selectedTagsBox');
+            const placeholder = document.getElementById('placeholderNoTags');
+            const hiddenInput = document.getElementById('hiddenTrabalhosInput');
+
+            container.innerHTML = '';
+
+            if (selectedWorks.size === 0) {
+                container.appendChild(placeholder);
+                hiddenInput.value = '';
+                return;
+            }
+
+            selectedWorks.forEach(work => {
+                const tag = document.createElement('span');
+                tag.className = 'selected-tag-item';
+                tag.innerHTML = `${work} <button type="button" onclick="removeTag('${work.replace(/'/g, "\\'")}')">&times;</button>`;
+                container.appendChild(tag);
+            });
+
+            hiddenInput.value = Array.from(selectedWorks).join(', ');
+        }
+    </script>
+</body>
+</html>

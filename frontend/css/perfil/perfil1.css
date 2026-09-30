@@ -1,0 +1,347 @@
+/* ==============================================================================
+   ESTILOS DO PERFIL DO PET E FORMULÁRIO DE PETS - PETMEE
+   Design acolhedor, moderno, responsivo e baseado na paleta laranja PetMee.
+   ============================================================================== */
+
+:root {
+  --primary: #f97316;
+  --primary-hover: #ea580c;
+  --primary-light: #fff7ed;
+  --primary-border: #fed7aa;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --bg-page: #f8fafc;
+  --card-bg: #ffffff;
+  --border-color: #e2e8f0;
+  --tag-bg: #f1f5f9;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 40px -5px rgba(15, 23, 42, 0.08);
+}
+
+/* Container do perfil do Pet */
+.pet-profile-container {
+  max-width: 980px;
+  margin: 2.5rem auto 5rem;
+  padding: 0 1rem;
+}
+
+.pet-hero-card {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+}
+
+/* Imagem e galeria do Pet */
+.pet-image-wrapper {
+  position: relative;
+  height: 100%;
+  min-height: 480px;
+  background: #fed7aa;
+  overflow: hidden;
+}
+
+.pet-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pet-status-badge {
+  position: absolute;
+  top: 1.2rem;
+  left: 1.2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+}
+
+.pet-status-badge.available {
+  background: rgba(34, 197, 94, 0.9);
+  color: #ffffff;
+}
+
+.pet-status-badge.unavailable {
+  background: rgba(100, 116, 139, 0.9);
+  color: #ffffff;
+}
+
+/* Painel de detalhes do Pet */
+.pet-details-pane {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pet-header-info {
+  margin-bottom: 1.5rem;
+}
+
+.pet-species-tag {
+  display: inline-block;
+  color: var(--primary);
+  font-weight: 800;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+}
+
+.pet-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2.5rem;
+  color: var(--text-main);
+  margin: 0 0 0.8rem;
+  line-height: 1.1;
+}
+
+.pet-quick-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.pet-pill {
+  background: var(--primary-light);
+  color: #c2410c;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border: 1px solid var(--primary-border);
+}
+
+/* Grade de características */
+.pet-specs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  background: #f8fafc;
+  padding: 1.2rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+  border: 1px solid #edf2f7;
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.spec-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.spec-value {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+/* Seção Sobre o Pet */
+.pet-about-section {
+  margin-bottom: 1.5rem;
+}
+
+.pet-about-section h3 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0 0 0.5rem;
+}
+
+.pet-about-section p {
+  color: #475569;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Cartão do Tutor */
+.tutor-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: #ffffff;
+  margin-bottom: 1.8rem;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.tutor-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.1);
+}
+
+.tutor-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary-border);
+}
+
+.tutor-info h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.tutor-info p {
+  margin: 0.2rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Botões de Ação */
+.pet-action-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-primary-action {
+  flex: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--primary);
+  color: #ffffff;
+  padding: 1rem 1.4rem;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(249, 115, 22, 0.28);
+  transition: all 0.2s ease;
+}
+
+.btn-primary-action:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.btn-secondary-action {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 1rem 1.2rem;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.btn-secondary-action:hover {
+  background: #e2e8f0;
+  color: var(--text-main);
+}
+
+/* Modal de Confirmação */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 999;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 2.2rem 2.4rem;
+  border-radius: 24px;
+  text-align: center;
+  max-width: 440px;
+  width: 90%;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transform: scale(0.92);
+  transition: transform 0.25s ease;
+}
+
+.modal-overlay.active .modal-content {
+  transform: scale(1);
+}
+
+.modal-emoji {
+  font-size: 3rem;
+  margin-bottom: 0.8rem;
+}
+
+.modal-content h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.6rem;
+  color: var(--text-main);
+  margin: 0 0 0.5rem;
+}
+
+.modal-content p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1.8rem;
+}
+
+.modal-close-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.85rem 1.8rem;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Responsividade do Perfil do Pet */
+@media (max-width: 860px) {
+  .pet-hero-card {
+    grid-template-columns: 1fr;
+  }
+  .pet-image-wrapper {
+    min-height: 340px;
+    height: 340px;
+  }
+  .pet-details-pane {
+    padding: 1.8rem;
+  }
+  .pet-action-buttons {
+    flex-direction: column;
+  }
+}

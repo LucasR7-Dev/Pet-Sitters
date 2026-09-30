@@ -1,0 +1,432 @@
+/* ==============================================================================
+   ESTILOS DA PÁGINA DE BUSCA DE CUIDADORES - PETMEE
+   Layout com sidebar de filtros, grid de cards e responsividade total.
+   ============================================================================== */
+
+.caregiver-page {
+    padding: 3.6rem 0 6rem;
+}
+
+.caregiver-hero {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 2.5rem clamp(1.4rem, 4vw, 3.5rem);
+    margin-bottom: 2.2rem;
+    border-radius: 30px;
+    background: linear-gradient(115deg, #fff7ed 0%, #ffedd5 53%, #fed7aa 100%);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(249, 115, 22, 0.08);
+}
+
+.caregiver-hero h1 {
+    max-width: 690px;
+    margin: 0;
+    font: 800 clamp(2.2rem, 5vw, 4.2rem)/1.02 "Outfit", sans-serif;
+    letter-spacing: -.045em;
+    color: #1c1917;
+}
+
+.caregiver-hero h1 span {
+    color: #ea580c;
+}
+
+.hero-copy {
+    max-width: 580px;
+    margin: 1rem 0 0;
+    color: #7c2d12;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.eyebrow {
+    margin: 0 0 .65rem;
+    color: #ea580c;
+    font-size: .75rem;
+    font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+
+.hero-action {
+    display: inline-flex;
+    align-items: center;
+    gap: .8rem;
+    flex: 0 0 auto;
+    padding: .95rem 1.4rem;
+    border-radius: 999px;
+    color: #fff;
+    background: #ea580c;
+    box-shadow: 0 12px 25px rgba(234, 88, 12, .2);
+    font-weight: 800;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.hero-action:hover {
+    background: #c2410c;
+    transform: translateY(-2px);
+}
+
+.caregiver-layout {
+    display: grid;
+    grid-template-columns: 290px minmax(0, 1fr);
+    gap: 2rem;
+    align-items: start;
+}
+
+/* Sidebar de filtros */
+.sidebar-filter {
+    position: sticky;
+    top: 90px;
+    padding: 1.5rem;
+    border: 1px solid #f1f5f9;
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: 0 14px 38px rgba(15, 23, 42, .06);
+}
+
+.filter-heading {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-bottom: 1.3rem;
+}
+
+.filter-heading h2 {
+    margin: 0;
+    font: 800 1.5rem/1 "Outfit", sans-serif;
+    color: #1e293b;
+}
+
+.filter-icon {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: #fff7ed;
+    color: #ea580c;
+    font-size: 1.4rem;
+}
+
+.sidebar-filter form {
+    display: grid;
+    gap: 1.2rem;
+}
+
+.sidebar-filter fieldset {
+    display: grid;
+    gap: .6rem;
+    padding: 0 0 1.2rem;
+    border: 0;
+    border-bottom: 1px solid #f1f5f9;
+    margin: 0;
+}
+
+.sidebar-filter legend {
+    margin-bottom: .3rem;
+    color: #1e293b;
+    font-size: .8rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.sidebar-filter label {
+    color: #475569;
+    font-size: .82rem;
+    font-weight: 700;
+}
+
+.filter-control,
+.age-fields input {
+    width: 100%;
+    padding: .75rem .85rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    outline: none;
+    background: #fff;
+    color: #1e293b;
+    font: inherit;
+    font-size: 0.9rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.filter-control:focus,
+.age-fields input:focus {
+    border-color: #f97316;
+    box-shadow: 0 0 0 4px rgba(249, 115, 22, .13);
+}
+
+.filter-control:disabled {
+    cursor: not-allowed;
+    background: #f8fafc;
+    color: #94a3b8;
+}
+
+.age-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .65rem;
+}
+
+.age-fields label {
+    display: grid;
+    gap: .35rem;
+    font-size: .75rem;
+}
+
+.filter-hint {
+    margin: -.1rem 0 .2rem;
+    color: #94a3b8;
+    font-size: .75rem;
+    line-height: 1.45;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    cursor: pointer;
+    font-weight: 500 !important;
+    font-size: 0.85rem;
+    color: #334155 !important;
+}
+
+.radio-option input {
+    accent-color: #f97316;
+}
+
+.filter-submit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border: 0;
+    border-radius: 14px;
+    padding: .9rem 1.2rem;
+    background: #f97316;
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.95rem;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(249, 115, 22, 0.25);
+    transition: background 0.2s;
+}
+
+.filter-submit:hover {
+    background: #ea580c;
+}
+
+.clear-filters {
+    display: block;
+    color: #94a3b8;
+    font-size: .8rem;
+    text-align: center;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.clear-filters:hover {
+    color: #ea580c;
+}
+
+/* Resultados e cards */
+.results-caption {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: .3rem 0 1.2rem;
+}
+
+.results-caption h2 {
+    margin: 0;
+    color: #172033;
+    font: 800 clamp(1.4rem, 2vw, 1.9rem)/1 "Outfit", sans-serif;
+}
+
+.active-filter {
+    padding: .45rem .8rem;
+    border-radius: 999px;
+    background: #fff7ed;
+    color: #c2410c;
+    font-size: .75rem;
+    font-weight: 800;
+}
+
+.caregiver-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.4rem;
+}
+
+.caregiver-card-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.minimal-card {
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 22px;
+    background: #fff;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, .05);
+    transition: transform .22s ease, box-shadow .22s ease;
+}
+
+.caregiver-card-link:hover .minimal-card {
+    transform: translateY(-5px);
+    box-shadow: 0 17px 32px rgba(15, 23, 42, .11);
+}
+
+.card-img {
+    position: relative;
+    height: 190px;
+    overflow: hidden;
+    background: #ffedd5;
+}
+
+.card-img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.verified-badge {
+    position: absolute;
+    top: .75rem;
+    left: .75rem;
+    padding: .4rem .7rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .92);
+    color: #9a3412;
+    font-size: .7rem;
+    font-weight: 800;
+    backdrop-filter: blur(8px);
+}
+
+.card-details {
+    padding: 1.2rem;
+}
+
+.category {
+    display: inline-block;
+    margin-bottom: .45rem;
+    color: #ea580c;
+    font-size: .7rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.card-details h3 {
+    margin: 0;
+    color: #172033;
+    font: 800 1.2rem/1.15 "Outfit", sans-serif;
+}
+
+.location {
+    min-height: 2.4rem;
+    margin: .55rem 0 .8rem;
+    color: #64748b;
+    font-size: .85rem;
+}
+
+.card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .6rem;
+    padding-top: .8rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.profile-age {
+    color: #475569;
+    font-size: .8rem;
+    font-weight: 700;
+}
+
+.rating {
+    color: #c2410c;
+    font-size: .8rem;
+    font-weight: 800;
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    display: grid;
+    justify-items: center;
+    padding: 3rem 1.5rem;
+    border: 2px dashed #fdba74;
+    border-radius: 24px;
+    background: #fffaf5;
+    text-align: center;
+}
+
+.empty-state img {
+    width: 140px;
+    height: 105px;
+    margin-bottom: 1rem;
+    object-fit: cover;
+    border-radius: 16px;
+    opacity: .9;
+}
+
+.empty-state strong {
+    color: #292524;
+    font: 800 1.4rem "Outfit", sans-serif;
+}
+
+.empty-state p {
+    margin: .5rem 0 1.2rem;
+    color: #78716c;
+}
+
+.empty-state a {
+    color: #ffffff;
+    background: #ea580c;
+    padding: 0.8rem 1.4rem;
+    border-radius: 999px;
+    font-weight: 800;
+    text-decoration: none;
+    display: inline-block;
+}
+
+@media (max-width: 1100px) {
+    .caregiver-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 780px) {
+    .caregiver-page {
+        padding-top: 2rem;
+    }
+    .caregiver-hero {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .caregiver-layout {
+        grid-template-columns: 1fr;
+    }
+    .sidebar-filter {
+        position: static;
+    }
+}
+
+@media (max-width: 520px) {
+    .caregiver-grid {
+        grid-template-columns: 1fr;
+    }
+    .caregiver-hero h1 {
+        font-size: 2.4rem;
+    }
+}

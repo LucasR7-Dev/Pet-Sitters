@@ -1,0 +1,237 @@
+/* --- CSS MODERNO E RESPONSIVO --- */
+:root {
+  --primary: #f97316;
+  --primary-hover: #c35b11;
+  --secondary: #f0f2f5;
+  --secondary-hover: #e4e6eb;
+  --text-main: #2d3748;
+  --text-muted: #718096;
+  --status-bg: #e6fffa;
+  --status-text: #047481;
+  --card-bg: #ffffff;
+  --shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  --radius: 24px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Card Principal com Animação */
+.card {
+  background: var(--card-bg);
+  width: 100%;
+  max-width: 380px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-0px);
+}
+
+/* Container da Imagem */
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  overflow: hidden;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+/* Zoom apenas ao passar o mouse na imagem/container */
+.image-container:hover img {
+  transform: scale(1.04);
+}
+
+/* Gradiente de leitura */
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 35px 24px 24px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  color: white;
+}
+
+.overlay h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+/* Tags internas */
+.tags {
+  display: flex;
+  gap: 8px;
+}
+
+.tag {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Conteúdo das Informações */
+.content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1f3f7;
+}
+
+.section.sobre {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.label {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.value {
+  font-size: 15px;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+/* Badge de Status Interativo */
+.status {
+  background-color: var(--status-bg);
+  color: var(--status-text);
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.status.indisponivel {
+  background-color: #ffeeed;
+  color: #e53e3e;
+}
+
+/* Botões */
+.buttons {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+button {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.accept {
+  background-color: var(--primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 71, 126, 0.2);
+}
+
+.accept:hover {
+  background-color: var(--primary-hover);
+  transform: scale(1.01);
+}
+
+.reject {
+  background-color: var(--secondary);
+  color: var(--text-main);
+}
+
+.reject:hover {
+  background-color: var(--secondary-hover);
+}
+
+/* --- MODAL DE SUCESSO --- */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.modal {
+  background: white;
+  padding: 32px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 320px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-overlay.active .modal {
+  transform: scale(1);
+}
+
+.modal h3 {
+  margin: 12px 0 8px;
+  color: var(--text-main);
+}
+
+.modal p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 20px;
+}

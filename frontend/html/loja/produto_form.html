@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}PetMee | Cadastrar produto{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'caregiver-form.css' %}">{% endblock %}
+
+{% block content %}
+<main class="form-page container">
+    <section class="form-intro">
+        <p class="eyebrow">Área do petshop</p>
+        <h1>Publicar produto</h1>
+        <p>Adicione um item para que tutores encontrem sua loja na Loja PetMee.</p>
+    </section>
+    <form method="post" class="petmee-form">
+        {% csrf_token %}
+        <div class="form-grid">
+            <label>Nome do produto
+                <input name="nome" required placeholder="Ex.: Ração premium para cães">
+            </label>
+            <label>Categoria
+                <input name="categoria" placeholder="Ex.: Alimentação">
+            </label>
+            <label>Preço
+                <input name="preco" type="number" min="0" step="0.01" required placeholder="0,00">
+            </label>
+            <label>Estoque
+                <input name="estoque" type="number" min="0" required value="0">
+            </label>
+        </div>
+        <label>URL da foto
+            <input name="foto_url" type="url" placeholder="https://...">
+        </label>
+        <label>Descrição
+            <textarea name="descricao" rows="5" placeholder="Descreva o produto para os tutores."></textarea>
+        </label>
+        <button type="submit">Publicar na loja</button>
+    </form>
+</main>
+{% endblock %}

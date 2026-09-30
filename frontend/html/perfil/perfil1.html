@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ pet.nome }} | PetMee{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'perfil/perfil1.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="pet-profile-container">
+    <div class="pet-hero-card">
+        <!-- FOTO DO PET COM STATUS -->
+        <div class="pet-image-wrapper">
+            <img src="{% if pet.foto_url %}{{ pet.foto_url }}{% else %}{% static 'CA1.png' %}{% endif %}"
+                 onerror="this.onerror=null;this.src='{% static 'CA1.png' %}'"
+                 alt="Foto de {{ pet.nome }}">
+            
+            <span class="pet-status-badge {% if pet.disponivel %}available{% else %}unavailable{% endif %}">
+                {% if pet.disponivel %}● Disponível{% else %}○ Indisponível{% endif %}
+            </span>
+        </div>
+
+        <!-- DETALHES E INFORMAÇÕES DO PET -->
+        <div class="pet-details-pane">
+            <div>
+                <div class="pet-header-info">
+                    <span class="pet-species-tag">{{ pet.especie }}{% if pet.raca %} • {{ pet.raca }}{% endif %}</span>
+                    <h1 class="pet-title">{{ pet.nome }} 🐾</h1>
+                    
+                    <div class="pet-quick-tags">
+                        {% if pet.sexo %}<span class="pet-pill">{{ pet.sexo }}</span>{% endif %}
+                        {% if pet.porte %}<span class="pet-pill">Porte {{ pet.porte }}</span>{% endif %}
+                        {% if pet.idade %}<span class="pet-pill">{{ pet.idade }}</span>{% endif %}
+                        {% if pet.localizacao %}<span class="pet-pill">📍 {{ pet.localizacao }}</span>{% endif %}
+                    </div>
+                </div>
+
+                <!-- ESPECIFICAÇÕES E CUIDADOS -->
+                <div class="pet-specs-grid">
+                    <div class="spec-item">
+                        <span class="spec-label">Espécie</span>
+                        <span class="spec-value">{{ pet.especie }}</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Raça</span>
+                        <span class="spec-value">{{ pet.raca|default:'Sem raça definida' }}</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Saúde e Vacinas</span>
+                        <span class="spec-value" style="color: #16a34a;">{{ pet.saude|default:'Em dia / Cuidados básicos' }}</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Localização</span>
+                        <span class="spec-value">{{ pet.localizacao }}</span>
+                    </div>
+                </div>
+
+                <!-- SOBRE / HISTÓRIA DO PET -->
+                <div class="pet-about-section">
+                    <h3>Sobre o {{ pet.nome }}</h3>
+                    <p>{{ pet.sobre|default:'Este pet adora carinho, passeios e uma boa companhia. Entre em contato com o tutor para mais informações!' }}</p>
+                </div>
+
+                <!-- DADOS DO TUTOR RESPONSÁVEL -->
+                {% if tutor %}
+                    <a href="{% url 'perfil_usuario' tutor.id %}" class="tutor-card">
+                        <img src="{% if tutor.avatar_url %}{{ tutor.avatar_url }}{% else %}{% static 'CA1.png' %}{% endif %}"
+                             onerror="this.onerror=null;this.src='{% static 'CA1.png' %}'"
+                             alt="Foto do tutor"
+                             class="tutor-avatar">
+                        <div class="tutor-info">
+                            <h4>Tutor: {{ tutor.nome_completo }}</h4>
+                            <p>📍 {{ tutor.cidade|default:'Localização não informada' }}{% if tutor.estado %}, {{ tutor.estado }}{% endif %} • Ver perfil ↗</p>
+                        </div>
+                    </a>
+                {% endif %}
+            </div>
+
+            <!-- BOTÕES DE AÇÃO -->
+            <footer class="pet-action-buttons">
+                {% if is_owner %}
+                    <a href="{% url 'cadastrar_pet' %}" class="btn-primary-action">
+                        ➕ Cadastrar outro pet
+                    </a>
+                    <a href="{% url 'home' %}" class="btn-secondary-action">
+                        Voltar ao Início
+                    </a>
+                {% else %}
+                    <button type="button" class="btn-primary-action" id="btnQueroCuidar">
+                        Quero cuidar ❤️
+                    </button>
+                    <a href="{% url 'home' %}" class="btn-secondary-action">
+                        Ver outros pets
+                    </a>
+                {% endif %}
+            </footer>
+        </div>
+    </div>
+</main>
+
+<!-- MODAL DE INTERESSE / CONTATO -->
+<div class="modal-overlay" id="modalInteresse">
+    <div class="modal-content">
+        <div class="modal-emoji">🎉</div>
+        <h3>Interesse Registrado!</h3>
+        <p>Obrigado pelo seu carinho com o <strong>{{ pet.nome }}</strong>! A notificação de interesse foi enviada e o tutor poderá entrar em contato com você.</p>
+        <button type="button" class="modal-close-btn" id="btnFecharModal">Fechar</button>
+    </div>
+</div>
+
+<script>
+    const btnQueroCuidar = document.getElementById('btnQueroCuidar');
+    const modal = document.getElementById('modalInteresse');
+    const btnFechar = document.getElementById('btnFecharModal');
+
+    if (btnQueroCuidar && modal) {
+        btnQueroCuidar.addEventListener('click', () => {
+            modal.classList.add('active');
+        });
+    }
+
+    if (btnFechar && modal) {
+        btnFechar.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+    }
+
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.remove('active');
+        });
+    }
+</script>
+{% endblock %}

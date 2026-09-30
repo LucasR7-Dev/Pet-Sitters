@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Editar Perfil | PetMee{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'perfil/perfil_usuario.css' %}">
+<style>
+    /* Estilos dedicados para a tela de edição de perfil */
+    .edit-profile-container {
+        max-width: 680px;
+        margin: 2.5rem auto 4rem;
+        background: #ffffff;
+        border-radius: 24px;
+        padding: 2.5rem 2.8rem;
+        box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+        border: 1px solid #f1f5f9;
+    }
+
+    .edit-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .edit-header h1 {
+        font-family: 'Outfit', sans-serif;
+        font-size: 2.2rem;
+        color: #1e293b;
+        margin: 0 0 0.5rem;
+    }
+
+    .edit-header p {
+        color: #64748b;
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    /* Seção de upload de foto do dispositivo */
+    .avatar-upload-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.5rem;
+        background: #fffaf5;
+        border: 2px dashed #fed7aa;
+        border-radius: 20px;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .avatar-preview-wrapper {
+        position: relative;
+        width: 120px;
+        height: 120px;
+    }
+
+    .avatar-preview {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #ffffff;
+        box-shadow: 0 8px 20px rgba(249, 115, 22, 0.2);
+        background: #fff;
+    }
+
+    .avatar-file-input {
+        display: none;
+    }
+
+    .btn-choose-file {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #f97316;
+        color: #ffffff;
+        padding: 0.7rem 1.4rem;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 14px rgba(249, 115, 22, 0.25);
+    }
+
+    .btn-choose-file:hover {
+        background: #ea580c;
+        transform: translateY(-2px);
+    }
+
+    .avatar-hint {
+        font-size: 0.8rem;
+        color: #94a3b8;
+        margin: 0;
+    }
+
+    /* Formulário e campos */
+    .edit-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.2rem;
+    }
+
+    .form-group-full {
+        grid-column: 1 / -1;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+    }
+
+    .form-group label {
+        font-weight: 700;
+        font-size: 0.85rem;
+        color: #334155;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        border: 1px solid #cbd5e1;
+        border-radius: 12px;
+        font-family: inherit;
+        font-size: 0.95rem;
+        color: #1e293b;
+        background: #ffffff;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #f97316;
+        box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.12);
+    }
+
+    .form-group textarea {
+        resize: vertical;
+        min-height: 110px;
+    }
+
+    .edit-actions {
+        grid-column: 1 / -1;
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .btn-save {
+        flex: 2;
+        background: #f97316;
+        color: white;
+        border: none;
+        padding: 1rem;
+        border-radius: 14px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.2s;
+        box-shadow: 0 8px 20px rgba(249, 115, 22, 0.25);
+    }
+
+    .btn-save:hover {
+        background: #ea580c;
+        transform: translateY(-2px);
+    }
+
+    .btn-cancel {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f1f5f9;
+        color: #475569;
+        border-radius: 14px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.95rem;
+        transition: background 0.2s;
+    }
+
+    .btn-cancel:hover {
+        background: #e2e8f0;
+        color: #1e293b;
+    }
+
+    @media (max-width: 640px) {
+        .edit-profile-container {
+            margin: 1.5rem 1rem 3rem;
+            padding: 1.8rem 1.4rem;
+        }
+        .edit-form {
+            grid-template-columns: 1fr;
+        }
+        .edit-actions {
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="container">
+    <div class="edit-profile-container">
+        <header class="edit-header">
+            <h1>Editar Perfil</h1>
+            <p>Atualize suas informações e foto de perfil na comunidade PetMee</p>
+        </header>
+
+        <!-- Formulário com suporte a upload de arquivos (enctype multipart/form-data) -->
+        <form method="POST" enctype="multipart/form-data" class="edit-form">
+            {% csrf_token %}
+
+            <!-- SELEÇÃO DA IMAGEM DIRETO DO DISPOSITIVO -->
+            <div class="form-group-full">
+                <div class="avatar-upload-box">
+                    <div class="avatar-preview-wrapper">
+                        <img id="avatarPreview"
+                             class="avatar-preview"
+                             src="{% if perfil.avatar_url %}{{ perfil.avatar_url }}{% else %}{% static 'CA1.png' %}{% endif %}"
+                             onerror="this.onerror=null;this.src='{% static 'CA1.png' %}'"
+                             alt="Foto do perfil">
+                    </div>
+                    
+                    <label for="avatarFileInput" class="btn-choose-file">
+                        📷 Escolher foto do seu dispositivo
+                    </label>
+                    <input type="file"
+                           id="avatarFileInput"
+                           name="avatar_file"
+                           accept="image/png, image/jpeg, image/jpg, image/webp"
+                           class="avatar-file-input"
+                           onchange="previewImage(event)">
+                    
+                    <p class="avatar-hint">Formatos suportados: JPG, PNG, WEBP. Selecione direto da sua galeria ou computador.</p>
+                    
+                    <!-- Campo oculto para manter a URL atual se nenhum novo arquivo for enviado -->
+                    <input type="hidden" name="avatar_url" value="{{ perfil.avatar_url|default:'' }}">
+                </div>
+            </div>
+
+            <!-- NOME COMPLETO -->
+            <div class="form-group form-group-full">
+                <label for="nome_completo">Nome Completo *</label>
+                <input type="text"
+                       id="nome_completo"
+                       name="nome_completo"
+                       value="{{ perfil.nome_completo }}"
+                       required
+                       placeholder="Seu nome completo">
+            </div>
+
+            <!-- IDADE -->
+            <div class="form-group">
+                <label for="idade">Idade</label>
+                <input type="number"
+                       id="idade"
+                       name="idade"
+                       value="{{ perfil.idade|default:'' }}"
+                       min="18"
+                       max="120"
+                       placeholder="Ex: 28">
+            </div>
+
+            <!-- ESTADO -->
+            <div class="form-group">
+                <label for="estado">Estado (UF)</label>
+                <select id="estado" name="estado">
+                    <option value="">Selecione o Estado</option>
+                    {% for est in estados %}
+                        <option value="{{ est.sigla }}" {% if perfil.estado == est.sigla %}selected{% endif %}>
+                            {{ est.nome }} ({{ est.sigla }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- CIDADE -->
+            <div class="form-group form-group-full">
+                <label for="cidade">Cidade</label>
+                <input type="text"
+                       id="cidade"
+                       name="cidade"
+                       value="{{ perfil.cidade|default:'' }}"
+                       placeholder="Sua cidade">
+            </div>
+
+            <!-- APRESENTAÇÃO / BIO -->
+            <div class="form-group form-group-full">
+                <label for="bio">Sobre você (Bio)</label>
+                <textarea id="bio"
+                          name="bio"
+                          placeholder="Conte um pouco sobre você, seu carinho por animais e sua rotina...">{{ perfil.bio|default:'' }}</textarea>
+            </div>
+
+            <!-- BOTÕES DE AÇÃO -->
+            <div class="edit-actions">
+                <button type="submit" class="btn-save">Salvar Alterações</button>
+                <a href="{% url 'perfil_usuario' perfil.id %}" class="btn-cancel">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</main>
+
+<script>
+    // Preview instantâneo da foto selecionada do dispositivo do usuário
+    function previewImage(event) {
+        const input = event.target;
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('avatarPreview');
+                preview.src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+{% endblock %}

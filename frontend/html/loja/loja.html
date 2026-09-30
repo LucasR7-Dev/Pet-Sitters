@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}PetMee | Loja{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'loja.css' %}">{% endblock %}
+
+{% block content %}
+<main class="shop-page container">
+    <section class="shop-heading">
+        <div>
+            <p class="eyebrow">Produtos para cuidar melhor</p>
+            <h1>Loja PetMee</h1>
+            <p>Encontre produtos de petshops da sua comunidade.</p>
+        </div>
+        <a class="orange-button" href="{% url 'cadastrar_produto' %}">Vender produto</a>
+    </section>
+
+    <div class="shop-layout">
+        <aside class="shop-filter">
+            <details open>
+                <summary>Filtros</summary>
+                <form method="get">
+                    <label>Buscar produto
+                        <input type="search" name="busca" value="{{ filters.busca }}" placeholder="Ex.: ração, brinquedo">
+                    </label>
+                    <label>Categoria
+                        <select name="categoria">
+                            <option value="">Todas as categorias</option>
+                            {% for categoria in categorias %}
+                                <option value="{{ categoria }}" {% if filters.categoria == categoria %}selected{% endif %}>{{ categoria }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <div class="price-fields">
+                        <label>Preço mínimo<input type="number" name="min_preco" value="{{ filters.min_preco }}" min="0" step="0.01" placeholder="R$ 0"></label>
+                        <label>Preço máximo<input type="number" name="max_preco" value="{{ filters.max_preco }}" min="0" step="0.01" placeholder="R$ 500"></label>
+                    </div>
+                    <button type="submit">Aplicar filtros</button>
+                    <a class="clear-shop-filter" href="{% url 'loja' %}">Limpar filtros</a>
+                </form>
+            </details>
+        </aside>
+
+        <section class="product-results">
+            <div class="results-caption">
+                <strong>{{ produtos|length }} produto{{ produtos|length|pluralize:"s" }}</strong>
+                <span>Seleção de petshops</span>
+            </div>
+            <div class="product-grid">
+                {% for produto in produtos %}
+                    <article class="product-card">
+                        <div class="product-photo"><img src="{% if produto.foto_url %}{{ produto.foto_url }}{% else %}{% static 'CPA.png' %}{% endif %}" onerror="this.onerror=null;this.src='{% static 'CPA.png' %}'" alt="Imagem de {{ produto.nome }}" loading="lazy"></div>
+                        <div class="product-info">
+                            <span class="category">{{ produto.categoria|default:'Geral' }}</span>
+                            <h2>{{ produto.nome }}</h2>
+                            <p class="product-description">{{ produto.descricao|default:'Produto selecionado para o bem-estar do seu pet.' }}</p>
+                            <p class="seller">{{ produto.vendedor_nome }}</p>
+                            <div class="product-footer">
+                                <strong>R$ {{ produto.preco|floatformat:2 }}</strong>
+                                <span>{{ produto.estoque }} em estoque</span>
+                            </div>
+                        </div>
+                    </article>
+                {% empty %}
+                    <div class="empty-state">
+                        <strong>A loja ainda está começando</strong>
+                        <p>Nenhum produto corresponde aos filtros. Contas de petshop podem publicar o primeiro produto.</p>
+                        <a href="{% url 'cadastrar_produto' %}">Cadastrar produto</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock %}

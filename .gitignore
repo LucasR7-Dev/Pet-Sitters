@@ -1,0 +1,30 @@
+# Ambientes virtuais e dependências
+venv/
+.venv/
+env/
+
+# Configurações locais e segredos
+.env
+*.env
+
+# Cache do Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Banco de dados local de desenvolvimento
+*.sqlite3
+db.sqlite3
+
+# Arquivos de mídia enviados por usuários
+backendpetmee/media/
+media/
+
+# Configurações de IDEs
+.vscode/
+.idea/
+
+# Sistema operacional
+Thumbs.db
+Desktop.ini

@@ -1,0 +1,356 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Cadastrar Pet | PetMee{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Estilos profissionais para o formulário de cadastro de pet */
+    .pet-create-container {
+        max-width: 820px;
+        margin: 2.8rem auto 5rem;
+        background: #ffffff;
+        border-radius: 28px;
+        padding: 3rem clamp(1.5rem, 5vw, 3.5rem);
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.07);
+        border: 1px solid #f1f5f9;
+    }
+
+    .pet-create-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .pet-create-header .badge {
+        display: inline-block;
+        background: #fff7ed;
+        color: #ea580c;
+        padding: 0.4rem 1rem;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 0.8rem;
+    }
+
+    .pet-create-header h1 {
+        font-family: 'Outfit', sans-serif;
+        font-size: clamp(2rem, 4vw, 2.7rem);
+        color: #1e293b;
+        margin: 0 0 0.5rem;
+        line-height: 1.1;
+    }
+
+    .pet-create-header p {
+        color: #64748b;
+        font-size: 1rem;
+        margin: 0;
+    }
+
+    .pet-form-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    .full-width {
+        grid-column: 1 / -1;
+    }
+
+    .form-section-title {
+        grid-column: 1 / -1;
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.25rem;
+        color: #0f172a;
+        margin: 1rem 0 0.2rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #fff7ed;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .field-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+    }
+
+    .field-group label {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #334155;
+    }
+
+    .field-group input,
+    .field-group select,
+    .field-group textarea {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        border: 1px solid #cbd5e1;
+        border-radius: 14px;
+        font-family: inherit;
+        font-size: 0.95rem;
+        color: #1e293b;
+        background: #ffffff;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .field-group input:focus,
+    .field-group select:focus,
+    .field-group textarea:focus {
+        outline: none;
+        border-color: #f97316;
+        box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.12);
+    }
+
+    .field-group textarea {
+        resize: vertical;
+        min-height: 110px;
+    }
+
+    /* Área de upload de foto com preview */
+    .pet-photo-upload-box {
+        grid-column: 1 / -1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        padding: 2rem 1.5rem;
+        background: #fffaf5;
+        border: 2px dashed #fed7aa;
+        border-radius: 20px;
+        text-align: center;
+    }
+
+    .pet-preview-img {
+        width: 160px;
+        height: 160px;
+        border-radius: 20px;
+        object-fit: cover;
+        border: 4px solid #ffffff;
+        box-shadow: 0 8px 24px rgba(249, 115, 22, 0.18);
+        background: #fff;
+    }
+
+    .btn-file-select {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #f97316;
+        color: #ffffff;
+        padding: 0.75rem 1.6rem;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 0.92rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 4px 14px rgba(249, 115, 22, 0.25);
+    }
+
+    .btn-file-select:hover {
+        background: #ea580c;
+        transform: translateY(-2px);
+    }
+
+    .pet-actions-bar {
+        grid-column: 1 / -1;
+        display: flex;
+        gap: 1.2rem;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #f1f5f9;
+    }
+
+    .btn-submit-pet {
+        flex: 2;
+        background: #f97316;
+        color: #ffffff;
+        border: none;
+        padding: 1.1rem;
+        border-radius: 16px;
+        font-size: 1.05rem;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 8px 24px rgba(249, 115, 22, 0.28);
+        transition: all 0.2s;
+    }
+
+    .btn-submit-pet:hover {
+        background: #ea580c;
+        transform: translateY(-2px);
+    }
+
+    .btn-cancel-pet {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f1f5f9;
+        color: #475569;
+        border-radius: 16px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.95rem;
+        transition: background 0.2s;
+    }
+
+    .btn-cancel-pet:hover {
+        background: #e2e8f0;
+        color: #1e293b;
+    }
+
+    @media (max-width: 680px) {
+        .pet-form-body {
+            grid-template-columns: 1fr;
+        }
+        .pet-actions-bar {
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="container">
+    <div class="pet-create-container">
+        <header class="pet-create-header">
+            <span class="badge">Novo Cadastro</span>
+            <h1>Cadastre seu Pet</h1>
+            <p>Conte os detalhes do seu companheiro para a comunidade PetMee</p>
+        </header>
+
+        <form method="POST" enctype="multipart/form-data" class="pet-form-body">
+            {% csrf_token %}
+
+            <!-- SELEÇÃO DA FOTO DO PET (DIRETO DO DISPOSITIVO OU URL) -->
+            <div class="pet-photo-upload-box">
+                <img id="petPreview"
+                     class="pet-preview-img"
+                     src="{% static 'CA1.png' %}"
+                     alt="Prévia do Pet">
+                
+                <label for="foto_file_input" class="btn-file-select">
+                    📷 Escolher foto do seu dispositivo
+                </label>
+                <input type="file"
+                       id="foto_file_input"
+                       name="foto_file"
+                       accept="image/*"
+                       style="display: none;"
+                       onchange="previewPetPhoto(event)">
+                
+                <p style="margin: 0; font-size: 0.8rem; color: #94a3b8;">
+                    Ou se preferir, pode informar o link da imagem abaixo:
+                </p>
+                <input type="url"
+                       name="foto_url"
+                       id="foto_url_input"
+                       placeholder="https://exemplo.com/foto-do-pet.jpg"
+                       style="max-width: 420px; font-size: 0.85rem;"
+                       oninput="updateUrlPreview(this.value)">
+            </div>
+
+            <!-- SEÇÃO 1: IDENTIFICAÇÃO DO ANIMAL -->
+            <h2 class="form-section-title">🐾 Identificação</h2>
+
+            <div class="field-group">
+                <label for="nome">Nome do Pet *</label>
+                <input type="text" id="nome" name="nome" required placeholder="Ex: Rex, Luna, Mel...">
+            </div>
+
+            <div class="field-group">
+                <label for="especie">Espécie *</label>
+                <select id="especie" name="especie" required>
+                    <option value="">Selecione a espécie</option>
+                    <option value="Cachorro">Cachorro</option>
+                    <option value="Gato">Gato</option>
+                    <option value="Pássaro">Pássaro</option>
+                    <option value="Coelho">Coelho</option>
+                    <option value="Outro">Outro animal</option>
+                </select>
+            </div>
+
+            <div class="field-group">
+                <label for="raca">Raça</label>
+                <input type="text" id="raca" name="raca" placeholder="Ex: Golden Retriever, SRD (Vira-lata)...">
+            </div>
+
+            <div class="field-group">
+                <label for="sexo">Sexo</label>
+                <select id="sexo" name="sexo">
+                    <option value="Macho">Macho</option>
+                    <option value="Fêmea">Fêmea</option>
+                    <option value="Não informado">Não informado</option>
+                </select>
+            </div>
+
+            <!-- SEÇÃO 2: CARACTERÍSTICAS FÍSICAS -->
+            <h2 class="form-section-title">📏 Características</h2>
+
+            <div class="field-group">
+                <label for="porte">Porte do Animal</label>
+                <select id="porte" name="porte">
+                    <option value="Pequeno">Pequeno (até 10kg)</option>
+                    <option value="Médio">Médio (11kg a 25kg)</option>
+                    <option value="Grande">Grande (mais de 25kg)</option>
+                </select>
+            </div>
+
+            <div class="field-group">
+                <label for="idade">Idade Aproximada</label>
+                <input type="text" id="idade" name="idade" placeholder="Ex: 2 anos, 5 meses, Idoso...">
+            </div>
+
+            <!-- SEÇÃO 3: LOCALIZAÇÃO E SAÚDE -->
+            <h2 class="form-section-title">📍 Localização e Saúde</h2>
+
+            <div class="field-group full-width">
+                <label for="localizacao">Localização (Cidade / Estado ou Bairro) *</label>
+                <input type="text" id="localizacao" name="localizacao" required placeholder="Ex: Moema, São Paulo - SP">
+            </div>
+
+            <div class="field-group full-width">
+                <label for="saude">Condições de Saúde e Vacinas</label>
+                <input type="text" id="saude" name="saude" placeholder="Ex: Vacinado, castrado, vermifugado, toma remédio contínuo...">
+            </div>
+
+            <!-- SEÇÃO 4: HISTÓRIA E COMPORTAMENTO -->
+            <h2 class="form-section-title">❤️ História e Personalidade</h2>
+
+            <div class="field-group full-width">
+                <label for="sobre">Conte sobre o pet (Temperamento, rotina, convivência)</label>
+                <textarea id="sobre"
+                          name="sobre"
+                          placeholder="Diga se ele se dá bem com outros cães, gatos ou crianças; como é a energia no dia a dia e se tem necessidades especiais..."></textarea>
+            </div>
+
+            <!-- BOTÕES DE SUBMISSÃO -->
+            <div class="pet-actions-bar">
+                <button type="submit" class="btn-submit-pet">Salvar e Publicar Pet</button>
+                <a href="{% url 'home' %}" class="btn-cancel-pet">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</main>
+
+<script>
+    function previewPetPhoto(event) {
+        const input = event.target;
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('petPreview').src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function updateUrlPreview(url) {
+        if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+            document.getElementById('petPreview').src = url;
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,36 @@
+.petshops-page { padding: 3.6rem 0 6rem; }
+.petshops-hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(280px, .95fr); align-items: center; gap: 2rem; min-height: 360px; padding: clamp(1.6rem, 5vw, 4rem); border-radius: 32px; background: linear-gradient(115deg, #fff7ed 0%, #ffedd5 58%, #fed7aa 100%); overflow: hidden; }
+.petshops-hero h1 { max-width: 650px; margin: 0; color: #1c1917; font: 800 clamp(2.8rem, 6vw, 5.2rem)/.94 "Outfit", sans-serif; letter-spacing: -.055em; }
+.petshops-hero h1 span { color: #ea580c; }
+.petshops-hero-copy > p:not(.eyebrow) { max-width: 540px; margin: 1.1rem 0 1.5rem; color: #7c2d12; font-size: 1rem; }
+.petshops-hero-copy > p strong { color: #431407; }
+.orange-button { display: inline-flex; align-items: center; gap: .85rem; padding: .9rem 1.15rem; border-radius: 999px; background: #ea580c; color: #fff; font-weight: 800; text-decoration: none; box-shadow: 0 12px 25px rgba(234,88,12,.18); }
+.orange-button:hover { background: #c2410c; }
+.petshops-hero-art { position: relative; min-height: 255px; }
+.petshops-hero-art img { display: block; width: 100%; height: 285px; border-radius: 26px; object-fit: cover; object-position: center; mix-blend-mode: multiply; }
+.art-tag { position: absolute; right: 1rem; bottom: .9rem; padding: .55rem .75rem; border-radius: 999px; background: rgba(255,255,255,.9); color: #9a3412; font-size: .72rem; font-weight: 800; backdrop-filter: blur(8px); }
+.petshops-section { padding-top: 4.4rem; }
+.section-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1.4rem; }
+.section-heading .eyebrow { margin-bottom: .35rem; }
+.section-heading h2 { margin: 0; color: #172033; font: 800 clamp(1.7rem, 3vw, 2.5rem)/1 "Outfit", sans-serif; }
+.result-count { color: #94a3b8; font-size: .8rem; font-weight: 700; }
+.petshop-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+.petshop-card-link { display: block; color: inherit; text-decoration: none; }
+.petshop-card { height: 100%; overflow: hidden; border: 1px solid #e2e8f0; border-radius: 23px; background: #fff; box-shadow: 0 8px 22px rgba(15,23,42,.05); transition: transform .22s ease, box-shadow .22s ease; }
+.petshop-card-link:hover .petshop-card { transform: translateY(-5px); box-shadow: 0 17px 32px rgba(15,23,42,.11); }
+.petshop-image { position: relative; height: 190px; background: #ffedd5; }
+.petshop-image img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.distance-tag { position: absolute; top: .75rem; left: .75rem; padding: .4rem .65rem; border-radius: 999px; background: rgba(255,255,255,.92); color: #9a3412; font-size: .68rem; font-weight: 800; backdrop-filter: blur(8px); }
+.petshop-info { padding: 1.15rem; }
+.category { color: #ea580c; font-size: .67rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.petshop-info h3 { margin: .5rem 0 .4rem; color: #172033; font: 800 1.25rem/1.08 "Outfit", sans-serif; }
+.petshop-location { min-height: 1.4rem; margin: 0 0 1rem; color: #64748b; font-size: .82rem; }
+.petshop-link { display: flex; align-items: center; justify-content: space-between; padding-top: .8rem; border-top: 1px solid #f1f5f9; color: #ea580c; font-size: .78rem; font-weight: 800; }
+.petshop-link b { font-size: 1.1rem; }
+.empty-petshops { grid-column: 1 / -1; display: flex; align-items: center; gap: 1.2rem; padding: 1.1rem; border: 1px dashed #fdba74; border-radius: 20px; background: #fffaf5; }
+.empty-petshops img { width: 115px; height: 85px; border-radius: 14px; object-fit: cover; }
+.empty-petshops strong { color: #292524; font: 800 1.1rem "Outfit", sans-serif; }
+.empty-petshops p { margin: .3rem 0 0; color: #78716c; font-size: .85rem; }
+.empty-petshops a { margin-left: auto; color: #ea580c; font-size: .8rem; font-weight: 800; text-decoration: none; }
+@media (max-width: 850px) { .petshops-hero { grid-template-columns: 1fr; } .petshops-hero-art { min-height: 200px; } .petshops-hero-art img { height: 220px; } .petshop-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .petshops-page { padding-top: 2rem; } .petshop-grid { grid-template-columns: 1fr; } .section-heading { align-items: start; flex-direction: column; } .empty-petshops { align-items: start; flex-wrap: wrap; } .empty-petshops a { margin-left: 0; } }

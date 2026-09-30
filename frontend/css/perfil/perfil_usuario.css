@@ -1,0 +1,368 @@
+/* ==============================================================================
+   ESTILOS DA PÁGINA DE PERFIL DE USUÁRIO - PETMEE
+   Inclui perfil do tutor, formulário de cuidador com valor por hora e avaliações.
+   ============================================================================== */
+
+:root {
+  --orange: #f97316;
+  --orange-dark: #ea580c;
+  --orange-light: #fff7ed;
+  --orange-border: #fed7aa;
+  --ink: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --card-bg: #ffffff;
+  --radius-xl: 24px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.profile-page {
+  max-width: 1140px;
+  margin: 2.5rem auto 5rem;
+  padding: 0 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Card Principal do Perfil */
+.profile-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #ffffff;
+  box-shadow: 0 12px 28px rgba(249, 115, 22, 0.2);
+  flex-shrink: 0;
+  background: #f1f5f9;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.badge-cuidador {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: #ffffff;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.badge-hourly-rate {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.profile-info h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2.3rem;
+  color: var(--ink);
+  margin: 0 0 0.5rem;
+  line-height: 1.1;
+}
+
+.profile-location {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.profile-bio-box {
+  background: #f8fafc;
+  padding: 1.1rem 1.3rem;
+  border-radius: var(--radius-md);
+  border: 1px solid #edf2f7;
+}
+
+.profile-bio-box h3 {
+  margin: 0 0 0.3rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.profile-bio-box p {
+  margin: 0;
+  color: #334155;
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+
+.btn-edit-profile {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1.5px solid var(--orange);
+  color: var(--orange);
+  padding: 0.65rem 1.2rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  background: #ffffff;
+}
+
+.btn-edit-profile:hover {
+  background: var(--orange);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* SEÇÃO EXCLUSIVA: TORNAR-SE CUIDADOR / VALOR POR HORA */
+.caregiver-activation-card {
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  border: 2px solid var(--orange-border);
+  border-radius: var(--radius-xl);
+  padding: 2.4rem;
+  box-shadow: var(--shadow);
+}
+
+.caregiver-activation-card .card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.caregiver-activation-card h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.8rem;
+  color: #7c2d12;
+  margin: 0 0 0.4rem;
+}
+
+.caregiver-activation-card p.intro {
+  color: #9a3412;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.caregiver-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  background: #ffffff;
+  padding: 1.8rem;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.cg-field-full {
+  grid-column: 1 / -1;
+}
+
+.cg-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.cg-field label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.cg-field input,
+.cg-field select,
+.cg-field textarea {
+  padding: 0.8rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: #ffffff;
+  color: var(--ink);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cg-field input:focus,
+.cg-field select:focus,
+.cg-field textarea:focus {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.15);
+}
+
+.price-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.price-prefix {
+  position: absolute;
+  left: 1rem;
+  color: #059669;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.price-input-wrapper input {
+  padding-left: 3rem !important;
+  font-weight: 700;
+  color: #059669;
+}
+
+.btn-submit-caregiver {
+  grid-column: 1 / -1;
+  background: var(--orange);
+  color: white;
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(249, 115, 22, 0.25);
+  transition: background 0.2s, transform 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-submit-caregiver:hover {
+  background: var(--orange-dark);
+  transform: translateY(-2px);
+}
+
+/* Seção de Grid: Pets e Avaliações */
+.profile-content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.content-box {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.content-box h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  color: var(--ink);
+  margin: 0 0 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.review-item {
+  border-bottom: 1px solid #f1f5f9;
+  padding: 1.2rem 0;
+}
+
+.review-item:last-child {
+  border-bottom: none;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.review-stars {
+  color: #f59e0b;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.review-date {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.review-comment {
+  margin: 0;
+  color: #334155;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+/* Formulário de Avaliação */
+.review-form-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.review-form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Responsividade */
+@media (max-width: 860px) {
+  .profile-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem 1.5rem;
+  }
+  .profile-badges {
+    justify-content: center;
+  }
+  .profile-location {
+    justify-content: center;
+  }
+  .btn-edit-profile {
+    position: static;
+    margin-top: 1rem;
+  }
+  .caregiver-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .profile-content-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,349 @@
+/* ==============================================================================
+   ESTILOS DA PÁGINA DE CADASTRO E REGISTRO DE PETSHOPS - PETMEE
+   Design acolhedor com transições suaves e bolhas interativas de serviços.
+   ============================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@600;800&display=swap');
+
+:root {
+    --orange: #f97316;
+    --orange-dark: #ea580c;
+    --ink: #1c1917;
+    --muted: #78716c;
+    --border: #e7e5e4;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    padding: 2rem 1.2rem;
+    background: radial-gradient(circle at 15% 15%, #fed7aa 0, transparent 32%), linear-gradient(135deg, #fff7ed, #ffedd5);
+    color: var(--ink);
+    font-family: "DM Sans", sans-serif;
+}
+
+/* Caixa principal de Registro */
+.register-container {
+    width: min(100%, 540px);
+    transition: all 0.3s ease;
+}
+
+.register-container.wide-mode {
+    width: min(100%, 680px);
+}
+
+.register-box {
+    width: 100%;
+    padding: clamp(1.8rem, 5vw, 2.8rem);
+    border: 1px solid rgba(255, 255, 255, .8);
+    border-radius: 28px;
+    background: rgba(255, 255, 255, .95);
+    box-shadow: 0 24px 70px rgba(124, 45, 18, .12);
+    backdrop-filter: blur(12px);
+}
+
+.register-brand {
+    display: inline-block;
+    color: var(--orange);
+    font: 800 1.5rem "Outfit", sans-serif;
+    letter-spacing: -.03em;
+    margin-bottom: 1.2rem;
+    text-decoration: none;
+}
+
+.register-box h1 {
+    margin: 0 0 .35rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    letter-spacing: -.03em;
+    color: #1e293b;
+}
+
+.register-subtitle {
+    color: var(--muted);
+    font-size: .92rem;
+    margin-bottom: 1.5rem;
+}
+
+.message {
+    margin: 1rem 0;
+    padding: .75rem 1rem;
+    border-radius: 12px;
+    background: #fff7ed;
+    color: #9a3412;
+    border: 1px solid #fed7aa;
+    font-size: .85rem;
+    font-weight: 500;
+}
+
+.message.success {
+    background: #f0fdf4;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+/* Formulário e campos */
+.register-form {
+    display: grid;
+    gap: 1.1rem;
+}
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.input-group {
+    display: grid;
+    gap: .4rem;
+}
+
+.input-group label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #475569;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+    width: 100%;
+    padding: .85rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    outline: none;
+    background: #fff;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-group input::placeholder,
+.input-group textarea::placeholder {
+    color: #a8a29e;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 4px rgba(249, 115, 22, .13);
+}
+
+.btn-primary-register {
+    width: 100%;
+    border: 0;
+    border-radius: 14px;
+    padding: 1rem 1.2rem;
+    background: var(--orange);
+    color: white;
+    font: 700 1.05rem "DM Sans", sans-serif;
+    cursor: pointer;
+    box-shadow: 0 10px 22px rgba(249, 115, 22, .24);
+    transition: background 0.2s, transform 0.2s;
+    margin-top: 0.5rem;
+}
+
+.btn-primary-register:hover {
+    background: var(--orange-dark);
+    transform: translateY(-2px);
+}
+
+.login-link-note {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+.login-link-note a {
+    color: var(--orange);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* ==============================================================================
+   SEÇÃO DE PALAVRAS-CHAVE E BOLHAS INTERATIVAS PARA O PETSHOP
+   ============================================================================== */
+.services-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    background: #fafaf9;
+    border: 1px solid #e7e5e4;
+    padding: 1.2rem;
+    border-radius: 16px;
+}
+
+.services-section .title {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #292524;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.services-section .hint {
+    font-size: 0.78rem;
+    color: #78716c;
+}
+
+/* Input para digitar e adicionar novo serviço */
+.custom-service-row {
+    display: flex;
+    gap: 0.6rem;
+}
+
+.custom-service-row input {
+    flex: 1;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid #d6d3d1;
+    border-radius: 10px;
+    font-size: 0.88rem;
+}
+
+.btn-add-service {
+    background: #44403c;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.1rem;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-add-service:hover {
+    background: #1c1917;
+}
+
+/* Bolhas / Chips de palavras-chave comuns de Petshop */
+.bubbles-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.3rem;
+}
+
+.bubble-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: #ffffff;
+    border: 1.5px solid #d6d3d1;
+    color: #44403c;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+}
+
+.bubble-chip:hover {
+    border-color: var(--orange);
+    color: var(--orange-dark);
+    transform: scale(1.03);
+}
+
+.bubble-chip.selected {
+    background: #ffedd5;
+    border-color: var(--orange);
+    color: #c2410c;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(249, 115, 22, 0.15);
+}
+
+.bubble-chip.selected::after {
+    content: "✓";
+    font-weight: 800;
+    margin-left: 0.2rem;
+}
+
+/* Lista de trabalhos selecionados (tags ativas) */
+.selected-tags-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    padding: 0.6rem;
+    background: #ffffff;
+    border-radius: 10px;
+    border: 1px dashed #fdba74;
+    min-height: 42px;
+}
+
+.selected-tag-item {
+    background: #f97316;
+    color: #ffffff;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.selected-tag-item button {
+    background: transparent;
+    border: none;
+    color: white;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0;
+    line-height: 1;
+}
+
+/* ==============================================================================
+   RODAPÉ DA PÁGINA: BOTÃO PARA CADASTRAR PETSHOP
+   ============================================================================== */
+.register-footer-cta {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+}
+
+.btn-petshop-footer {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background: #fff7ed;
+    color: #ea580c;
+    border: 1.5px solid #fed7aa;
+    padding: 0.9rem 1.6rem;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 0.92rem;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(249, 115, 22, 0.12);
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.btn-petshop-footer:hover {
+    background: #ffedd5;
+    border-color: #f97316;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(249, 115, 22, 0.2);
+}
+
+@media (max-width: 580px) {
+    .form-grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
